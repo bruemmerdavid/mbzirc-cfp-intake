@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MBZIRC CFP · Scoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #050d14;
+      --oil: #0a1a24;
+      --slate: #132836;
+      --sand: #e8d5a3;
+      --amber: #d4a017;
+      --ember: #c45c26;
+      --cyan: #2a9a9a;
+      --foam: #e8f2f0;
+      --muted: #8aa3ad;
+      --line: rgba(232, 213, 163, 0.18);
+      --danger: #e07050;
+      --ok: #3cb89a;
+      --font-display: "Oxanium", sans-serif;
+      --font-body: "Sora", sans-serif;
+      --radius: 4px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--foam);
+      background:
+        radial-gradient(ellipse 80% 50% at 0% 0%, rgba(196, 92, 38, 0.18), transparent 55%),
+        linear-gradient(165deg, #061018, #0a1a24 50%, #0d222c);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    header {
+      padding: 1.25rem clamp(1rem, 3vw, 2rem);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+    header h1 span { color: var(--cyan); font-weight: 500; font-size: 0.75em; margin-left: 0.5rem; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 1.25rem clamp(1rem, 3vw, 2rem) 3rem; }
+    .btn {
+      appearance: none; border: none; cursor: pointer;
+      font-family: var(--font-display); font-weight: 600; font-size: 0.78rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.55rem 0.95rem; border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--amber), var(--ember));
+      color: var(--ink);
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent; color: var(--sand);
+      border: 1px solid var(--line);
+    }
+    input[type="password"], input[type="number"], textarea, select {
+      width: 100%; padding: 0.65rem 0.8rem;
+      background: rgba(19, 40, 54, 0.85);
+      border: 1px solid var(--line); border-radius: var(--radius);
+      color: var(--foam); font-family: var(--font-body); font-size: 0.9rem;
+    }
+    textarea { min-height: 72px; resize: vertical; }
+    #login-panel {
+      max-width: 360px; margin: 4rem auto; padding: 1.5rem;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: rgba(19, 40, 54, 0.55);
+    }
+    #login-panel h2 {
+      font-family: var(--font-display); font-size: 1rem;
+      margin: 0 0 0.75rem; color: var(--sand);
+    }
+    #login-panel p { color: var(--muted); font-size: 0.85rem; margin: 0 0 1rem; }
+    .err { color: var(--danger); font-size: 0.85rem; margin-top: 0.65rem; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .layout { display: grid; grid-template-columns: minmax(240px, 320px) 1fr; gap: 1rem; }
+    @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+    .list {
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: rgba(10, 26, 36, 0.55); max-height: 75vh; overflow: auto;
+    }
+    .list-item {
+      display: block; width: 100%; text-align: left;
+      padding: 0.85rem 1rem; border: none; border-bottom: 1px solid var(--line);
+      background: transparent; color: var(--foam); cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .list-item:hover, .list-item.active { background: rgba(42, 154, 154, 0.12); }
+    .list-item strong { display: block; font-family: var(--font-display); font-size: 0.9rem; color: var(--sand); }
+    .list-item small { color: var(--muted); font-size: 0.75rem; }
+    .flags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.35rem; }
+    .flag {
+      font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.15rem 0.4rem; border-radius: var(--radius);
+      border: 1px solid var(--danger); color: var(--danger);
+    }
+    .flag.ok { border-color: var(--ok); color: var(--ok); }
+    .detail {
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: rgba(19, 40, 54, 0.45); padding: 1.15rem 1.25rem;
+      min-height: 320px;
+    }
+    .detail h2 {
+      font-family: var(--font-display); margin: 0 0 0.35rem;
+      font-size: 1.25rem; color: var(--foam);
+    }
+    .meta { color: var(--muted); font-size: 0.82rem; margin-bottom: 1rem; }
+    .total {
+      font-family: var(--font-display); font-size: 1.6rem;
+      color: var(--amber); margin: 0 0 1rem;
+    }
+    .dim {
+      border-top: 1px solid var(--line); padding: 0.9rem 0;
+    }
+    .dim-head {
+      display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+      align-items: center; justify-content: space-between;
+      margin-bottom: 0.35rem;
+    }
+    .dim-head strong {
+      font-family: var(--font-display); font-size: 0.88rem;
+      letter-spacing: 0.04em; color: var(--sand);
+    }
+    .dim .rationale { font-size: 0.8rem; color: var(--muted); margin: 0.35rem 0 0.55rem; }
+    .dim-controls { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.5rem; align-items: start; }
+    .empty { color: var(--muted); padding: 2rem 0; text-align: center; }
+    .hidden { display: none !important; }
+    .ko-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MBZIRC CFP <span>Scoring</span></h1>
+    <div id="header-actions" class="hidden">
+      <button type="button" class="btn btn-ghost" id="btn-refresh">Refresh</button>
+      <button type="button" class="btn btn-ghost" id="btn-csv">Export CSV</button>
+      <button type="button" class="btn btn-ghost" id="btn-json">Export JSON</button>
+      <button type="button" class="btn btn-ghost" id="btn-logout">Log out</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div id="login-panel">
+      <h2>Admin access</h2>
+      <p>Shared secret from hosting notes (env <code>ADMIN_PASSWORD</code>).</p>
+      <form id="login-form">
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
+        <div style="margin-top:0.85rem;">
+          <button type="submit" class="btn">Enter</button>
+        </div>
+        <p class="err hidden" id="login-err"></p>
+      </form>
+    </div>
+
+    <div id="app" class="hidden">
+      <div class="toolbar">
+        <span id="count-label" style="color:var(--muted);font-size:0.85rem;align-self:center;"></span>
+      </div>
+      <div class="layout">
+        <div class="list" id="list"></div>
+        <div class="detail" id="detail">
+          <p class="empty">Select a submission</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DIM_LABELS = {
+      techMaturity: "1 · Tech maturity",
+      applicationSuitability: "2 · Application suitability",
+      humanInteraction: "3 · Dynamic human interaction",
+      adnocWillingness: "4 · ADNOC willingness",
+      uaeIcvWillingness: "5 · UAE ICV willingness",
+    };
+
+    let password = sessionStorage.getItem("mbzirc_admin_pw") || "";
+    let submissions = [];
+    let selectedId = null;
+    let currentRecord = null;
+
+    function authHeaders() {
+      return {
+        Authorization: `Bearer ${password}`,
+        "Content-Type": "application/json",
+      };
+    }
+
+    async function api(path, opts = {}) {
+      const res = await fetch(path, {
+        ...opts,
+        headers: { ...authHeaders(), ...(opts.headers || {}) },
+      });
+      if (res.status === 401) throw new Error("unauthorized");
+      const ct = res.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || res.statusText);
+        return data;
+      }
+      if (!res.ok) throw new Error(res.statusText);
+      return res;
+    }
+
+    function showApp() {
+      document.getElementById("login-panel").classList.add("hidden");
+      document.getElementById("app").classList.remove("hidden");
+      document.getElementById("header-actions").classList.remove("hidden");
+    }
+
+    function showLogin(msg) {
+      document.getElementById("login-panel").classList.remove("hidden");
+      document.getElementById("app").classList.add("hidden");
+      document.getElementById("header-actions").classList.add("hidden");
+      const err = document.getElementById("login-err");
+      if (msg) {
+        err.textContent = msg;
+        err.classList.remove("hidden");
+      }
+    }
+
+    function flagHtml(summary) {
+      const k = summary.knockouts || {};
+      const bits = [];
+      bits.push(`<span class="flag ${k.unifiedFail ? "" : "ok"}">Unified ${k.unifiedFail ? "FAIL" : "ok"}</span>`);
+      bits.push(`<span class="flag ${k.adnocFail ? "" : "ok"}">ADNOC ${k.adnocFail ? "FAIL" : "ok"}</span>`);
+      bits.push(`<span class="flag ${k.icvFail ? "" : "ok"}">ICV ${k.icvFail ? "FAIL" : "ok"}</span>`);
+      return `<div class="flags">${bits.join("")}</div>`;
+    }
+
+    function renderList() {
+      const list = document.getElementById("list");
+      document.getElementById("count-label").textContent = `${submissions.length} submission(s)`;
+      if (!submissions.length) {
+        list.innerHTML = `<p class="empty" style="padding:1rem;">No submissions yet</p>`;
+        return;
+      }
+      list.innerHTML = submissions
+        .map(
+          (s) => `
+        <button type="button" class="list-item ${s.id === selectedId ? "active" : ""}" data-id="${s.id}">
+          <strong>${escapeHtml(s.orgName || "—")}</strong>
+          <small>${escapeHtml(s.contactName || "")} · ${escapeHtml(s.country || "")} · <b style="color:var(--amber)">${s.total}/25</b></small>
+          ${flagHtml(s)}
+        </button>`
+        )
+        .join("");
+      list.querySelectorAll(".list-item").forEach((btn) => {
+        btn.addEventListener("click", () => selectSubmission(btn.dataset.id));
+      });
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    async function selectSubmission(id) {
+      selectedId = id;
+      renderList();
+      const data = await api(`/api/submissions/${encodeURIComponent(id)}`);
+      currentRecord = data;
+      renderDetail(data);
+    }
+
+    function renderDetail(data) {
+      const eff = data.effective;
+      const app = data.application || {};
+      const team = app.team || {};
+      const ko = eff.knockouts || {};
+      const detail = document.getElementById("detail");
+
+      const dims = Object.keys(DIM_LABELS)
+        .map((key) => {
+          const d = eff.dimensions[key];
+          return `
+          <div class="dim" data-dim="${key}">
+            <div class="dim-head">
+              <strong>${DIM_LABELS[key]}</strong>
+              <span>${d.overridden ? "override" : "auto"} · auto ${d.autoScore}</span>
+            </div>
+            <p class="rationale">${escapeHtml(d.rationale || "")}</p>
+            <div class="dim-controls">
+              <input type="number" min="0" max="5" step="0.1" value="${d.score}" data-score="${key}" />
+              <textarea data-note="${key}" placeholder="Override note">${escapeHtml(d.note || "")}</textarea>
+            </div>
+          </div>`;
+        })
+        .join("");
+
+      detail.innerHTML = `
+        <h2>${escapeHtml(team.orgName || "—")}</h2>
+        <p class="meta">${escapeHtml(team.orgType || "")} · ${escapeHtml(team.orgCountry || "")}<br/>
+          ${escapeHtml(team.contact?.name || "")} · ${escapeHtml(team.contact?.email || "")} · ${escapeHtml(team.contact?.phone || "")}<br/>
+          id <code>${escapeHtml(data.id)}</code> · ${escapeHtml(data.createdAt || "")}
+        </p>
+        <div class="ko-row">
+          <span class="flag ${ko.unified?.pass ? "ok" : ""}">Unified: ${escapeHtml(ko.unified?.value || "?")}</span>
+          <span class="flag ${ko.adnoc?.pass ? "ok" : ""}">ADNOC: ${escapeHtml(ko.adnoc?.value || "?")}</span>
+          <span class="flag ${ko.icv?.hardFail ? "" : "ok"}">ICV: ${escapeHtml(ko.icv?.value || "?")}</span>
+        </div>
+        <p class="total">${eff.total} / 25</p>
+        ${dims}
+        <div class="dim">
+          <div class="dim-head"><strong>Admin notes</strong></div>
+          <textarea id="admin-notes" placeholder="Reviewer notes">${escapeHtml(data.adminNotes || "")}</textarea>
+        </div>
+        <div class="toolbar" style="margin-top:1rem;">
+          <button type="button" class="btn" id="btn-save">Save overrides</button>
+          <button type="button" class="btn btn-ghost" id="btn-rescore">Re-run auto-score</button>
+        </div>
+        <details style="margin-top:1.25rem;">
+          <summary style="cursor:pointer;color:var(--cyan);font-family:var(--font-display);font-size:0.8rem;letter-spacing:0.06em;">RAW APPLICATION JSON</summary>
+          <pre style="overflow:auto;max-height:320px;font-size:0.72rem;color:var(--muted);">${escapeHtml(JSON.stringify(app, null, 2))}</pre>
+        </details>
+      `;
+
+      detail.querySelector("#btn-save").addEventListener("click", saveOverrides);
+      detail.querySelector("#btn-rescore").addEventListener("click", rescore);
+    }
+
+    async function saveOverrides() {
+      const overrides = {};
+      document.querySelectorAll("[data-score]").forEach((el) => {
+        const key = el.dataset.score;
+        const noteEl = document.querySelector(`[data-note="${key}"]`);
+        overrides[key] = {
+          score: Number(el.value),
+          note: noteEl ? noteEl.value : "",
+        };
+      });
+      const adminNotes = document.getElementById("admin-notes")?.value || "";
+      await api(`/api/submissions/${encodeURIComponent(selectedId)}`, {
+        method: "PATCH",
+        body: JSON.stringify({ overrides, adminNotes }),
+      });
+      await loadList();
+      await selectSubmission(selectedId);
+    }
+
+    async function rescore() {
+      await api(`/api/submissions/${encodeURIComponent(selectedId)}`, {
+        method: "PATCH",
+        body: JSON.stringify({ rescore: true }),
+      });
+      await loadList();
+      await selectSubmission(selectedId);
+    }
+
+    async function loadList() {
+      const data = await api("/api/submissions");
+      submissions = data.submissions || [];
+      renderList();
+    }
+
+    async function downloadExport(format) {
+      const res = await fetch(`/api/export?format=${format}`, {
+        headers: authHeaders(),
+      });
+      if (!res.ok) throw new Error("export failed");
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `mbzirc-cfp-scored.${format === "json" ? "json" : "csv"}`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      password = document.getElementById("password").value;
+      try {
+        await api("/api/login", {
+          method: "POST",
+          body: JSON.stringify({ password }),
+        });
+        sessionStorage.setItem("mbzirc_admin_pw", password);
+        showApp();
+        await loadList();
+      } catch (err) {
+        password = "";
+        sessionStorage.removeItem("mbzirc_admin_pw");
+        showLogin("Wrong password or API unreachable.");
+      }
+    });
+
+    document.getElementById("btn-refresh").addEventListener("click", () => loadList());
+    document.getElementById("btn-csv").addEventListener("click", () => downloadExport("csv"));
+    document.getElementById("btn-json").addEventListener("click", () => downloadExport("json"));
+    document.getElementById("btn-logout").addEventListener("click", () => {
+      password = "";
+      sessionStorage.removeItem("mbzirc_admin_pw");
+      showLogin("");
+    });
+
+    (async () => {
+      if (!password) return;
+      try {
+        await api("/api/submissions");
+        showApp();
+        await loadList();
+      } catch {
+        password = "";
+        sessionStorage.removeItem("mbzirc_admin_pw");
+      }
+    })();
+  </script>
+</body>
+</html>
