@@ -2,12 +2,1723 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0;url=/admin/" />
-  <title>Redirecting…</title>
-  <link rel="canonical" href="/admin/" />
-  <script>location.replace("/admin/");</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MBZIRC 2026 – Energy Industry Edition | Call for Participation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #050d14;
+      --oil: #0a1a24;
+      --slate: #132836;
+      --steel: #1e3d4a;
+      --sand: #e8d5a3;
+      --amber: #d4a017;
+      --ember: #c45c26;
+      --cyan: #2a9a9a;
+      --foam: #e8f2f0;
+      --muted: #8aa3ad;
+      --line: rgba(232, 213, 163, 0.18);
+      --danger: #e07050;
+      --ok: #3cb89a;
+      --font-display: "Oxanium", sans-serif;
+      --font-body: "Sora", sans-serif;
+      --radius: 4px;
+      --max: 760px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--foam);
+      background:
+        radial-gradient(ellipse 90% 60% at 10% -10%, rgba(196, 92, 38, 0.22), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 95% 5%, rgba(42, 154, 154, 0.18), transparent 50%),
+        linear-gradient(165deg, #061018 0%, #0a1a24 40%, #0d222c 100%);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image:
+        linear-gradient(rgba(232, 213, 163, 0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232, 213, 163, 0.4) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.55), transparent 70%);
+      z-index: 0;
+    }
+
+    .wrap { position: relative; z-index: 1; }
+
+    /* —— Hero —— */
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(2rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.65rem, 4.2vw, 2.85rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--sand);
+      line-height: 1.15;
+      margin: 0 0 1.25rem;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 0.9s ease 0.15s forwards;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 0.42em;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: var(--cyan);
+      margin-top: 0.55rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.35rem, 3.2vw, 2.1rem);
+      line-height: 1.25;
+      margin: 0 0 1rem;
+      max-width: 18ch;
+      color: var(--foam);
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 0.9s ease 0.35s forwards;
+    }
+
+    .hero-lead {
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 38ch;
+      margin: 0 0 2.25rem;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 0.9s ease 0.55s forwards;
+    }
+
+    .cta-row {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise 0.9s ease 0.75s forwards;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.95rem 1.6rem;
+      background: linear-gradient(135deg, var(--amber) 0%, var(--ember) 100%);
+      color: var(--ink);
+      border-radius: var(--radius);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      box-shadow: 0 0 0 0 rgba(212, 160, 23, 0);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(196, 92, 38, 0.35);
+      filter: brightness(1.05);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--sand);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--sand);
+      box-shadow: none;
+      filter: none;
+    }
+
+    .btn-sm {
+      padding: 0.55rem 0.95rem;
+      font-size: 0.78rem;
+    }
+
+    .meta-strip {
+      margin-top: 3rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fade 1s ease 1s forwards;
+    }
+
+    .meta-strip strong { color: var(--sand); font-weight: 500; }
+
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade {
+      to { opacity: 1; }
+    }
+
+    /* —— Form shell —— */
+    .form-shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 4vw, 2rem) 5rem;
+    }
+
+    .deadline-banner {
+      border-left: 3px solid var(--amber);
+      background: rgba(212, 160, 23, 0.08);
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--sand);
+    }
+
+    .draft-toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: var(--slate);
+      border: 1px solid var(--line);
+      color: var(--foam);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.78rem;
+      border-radius: var(--radius);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 50;
+    }
+
+    .draft-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section {
+      margin-bottom: 3.25rem;
+      padding-top: 0.5rem;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin: 0 0 0.4rem;
+    }
+
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+      font-weight: 600;
+      margin: 0 0 0.45rem;
+      color: var(--foam);
+    }
+
+    .section-hint {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0 0 1.5rem;
+      max-width: 52ch;
+    }
+
+    .filter-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--line);
+      color: var(--sand);
+      margin-bottom: 0.75rem;
+    }
+
+    .field {
+      margin-bottom: 1.15rem;
+    }
+
+    .field label,
+    .field .label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+      color: var(--sand);
+    }
+
+    .field .req { color: var(--ember); margin-left: 0.2rem; }
+    .field .hint {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 0.25rem;
+    }
+
+    .provisional {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-left: 0.35rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      background: rgba(19, 40, 54, 0.85);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--foam);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease, box-shadow 0.25s ease, background 0.2s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(42, 154, 154, 0.22);
+      background: rgba(30, 61, 74, 0.95);
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+    select { cursor: pointer; }
+    select option { background: var(--oil); color: var(--foam); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* Org type chips */
+    .chip-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.65rem;
+    }
+
+    @media (min-width: 560px) {
+      .chip-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .chip {
+      position: relative;
+    }
+
+    .chip input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .chip span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 3.1rem;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(19, 40, 54, 0.6);
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .chip:nth-child(1) span,
+    .chip:nth-child(2) span {
+      min-height: 3.6rem;
+      font-size: 0.92rem;
+      color: var(--foam);
+      border-color: rgba(212, 160, 23, 0.35);
+    }
+
+    .chip input:checked + span {
+      border-color: var(--amber);
+      background: rgba(212, 160, 23, 0.15);
+      color: var(--sand);
+      transform: scale(1.02);
+    }
+
+    .chip input:focus-visible + span {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    /* Knock-outs */
+    .knockout {
+      border: 1px solid rgba(196, 92, 38, 0.35);
+      background: rgba(196, 92, 38, 0.07);
+      padding: 1.15rem 1.2rem;
+      margin-bottom: 1.5rem;
+      border-radius: var(--radius);
+    }
+
+    .knockout h3 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      margin: 0 0 0.85rem;
+      color: var(--ember);
+      letter-spacing: 0.04em;
+    }
+
+    .choice-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin-top: 0.4rem;
+    }
+
+    .choice-row label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--foam);
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .choice-row input { accent-color: var(--amber); }
+
+    /* Maturity scales */
+    .maturity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .maturity-row {
+      display: grid;
+      grid-template-columns: minmax(8rem, 1fr) 2fr;
+      gap: 0.65rem 1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 560px) {
+      .maturity-row { grid-template-columns: 1fr; }
+    }
+
+    .maturity-row span {
+      font-size: 0.85rem;
+      color: var(--sand);
+    }
+
+    /* Pathways */
+    .pathway-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .pathway {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.75rem;
+      align-items: start;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(19, 40, 54, 0.45);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .pathway:has(input:checked) {
+      border-color: rgba(42, 154, 154, 0.55);
+      background: rgba(42, 154, 154, 0.1);
+    }
+
+    .pathway input { margin-top: 0.2rem; accent-color: var(--cyan); }
+    .pathway strong {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--sand);
+      display: block;
+    }
+    .pathway small {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .pathway select {
+      width: auto;
+      min-width: 8rem;
+      padding: 0.4rem 0.55rem;
+      font-size: 0.8rem;
+    }
+
+    /* Roster */
+    .roster { display: flex; flex-direction: column; gap: 0.85rem; }
+
+    .member {
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(10, 26, 36, 0.55);
+      animation: memberIn 0.35s ease;
+    }
+
+    @keyframes memberIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .member-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .member-head strong {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+
+    .remove-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--danger);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius);
+    }
+
+    .remove-btn:hover { border-color: var(--danger); }
+
+    .actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .error-banner {
+      display: none;
+      margin-bottom: 1.25rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--danger);
+      background: rgba(224, 112, 80, 0.12);
+      color: var(--foam);
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+    }
+
+    .error-banner.show { display: block; }
+
+    /* Success */
+    .success {
+      display: none;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 4rem clamp(1.25rem, 4vw, 2rem) 5rem;
+    }
+
+    .success.show { display: block; animation: rise 0.6s ease forwards; }
+
+    .success h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--ok);
+      margin: 0 0 0.75rem;
+    }
+
+    .success-summary {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(19, 40, 54, 0.6);
+      font-size: 0.9rem;
+    }
+
+    .success-summary dt {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-top: 0.85rem;
+    }
+
+    .success-summary dt:first-child { margin-top: 0; }
+    .success-summary dd { margin: 0.2rem 0 0; color: var(--foam); }
+
+    .hidden { display: none !important; }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+  </style>
 </head>
 <body>
-  <p><a href="/admin/">MBZIRC CFP scoring admin</a></p>
+  <div class="wrap" id="app">
+    <header class="hero" id="hero">
+      <p class="brand">
+        MBZIRC 2026
+        <span>Energy Industry Edition</span>
+      </p>
+      <h1>Bring a unified system to ADNOC’s real sites.</h1>
+      <p class="hero-lead">
+        Call for participation — filter for teams that can deliver, deploy, and commit to building value in the UAE.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="#knockouts">Start application</a>
+      </div>
+      <p class="meta-strip">
+        Form target <strong>12 Nov 2026</strong> · Open call ~12 Nov – mid-Apr · Semi-finals at ADNOC ATA · USD 1M prize pool
+      </p>
+    </header>
+
+    <main class="form-shell" id="form-main">
+      <div class="deadline-banner" id="deadline">
+        Application form intended for website launch by <strong>12 November 2026</strong> (ADIPEC call). Drafts save in this browser. No IP assignment required to apply; ICV commitment is tested here and terms apply after award.
+      </div>
+
+      <div class="error-banner" id="error-banner" role="alert"></div>
+
+      <form id="cfp-form" novalidate>
+        <!-- Knock-outs -->
+        <section class="section" id="knockouts" data-reveal>
+          <p class="section-label">Before you begin</p>
+          <h2>Readiness Assessment</h2>
+          <!-- Review note (not shown to applicants): Weak or uncommitted applications should stop here. -->
+          <p class="section-hint">Concrete answers first.</p>
+
+          <div class="knockout">
+            <h3>Can you field a working unified system by the Semi-Finals?</h3>
+            <div class="field">
+              <div class="choice-row">
+                <label><input type="radio" name="ko_unified" value="yes" required /> Yes — we will demonstrate a unified map / navigate / inspect / operate / report stack</label>
+                <label><input type="radio" name="ko_unified" value="no" /> No — concept only or single-capability demo</label>
+              </div>
+            </div>
+            <p class="section-hint" style="margin-bottom:1rem;">What shows you can reach Semi-Finals at ADNOC ATA? Answer each item. Write <em>None</em> where that is accurate.</p>
+            <div class="field">
+              <label for="ko_current_hardware">Current hardware <span class="req">*</span></label>
+              <textarea id="ko_current_hardware" name="ko_current_hardware" required placeholder="Platforms, sensors, arms you have today — or None"></textarea>
+            </div>
+            <div class="field">
+              <label for="ko_current_software">Current software <span class="req">*</span></label>
+              <textarea id="ko_current_software" name="ko_current_software" required placeholder="Autonomy, mapping, inspection, operator tools — or None"></textarea>
+            </div>
+            <div class="field">
+              <label for="ko_prior_field_deployments">Prior field deployments <span class="req">*</span></label>
+              <textarea id="ko_prior_field_deployments" name="ko_prior_field_deployments" required placeholder="Sites, operators, outcomes — or None"></textarea>
+            </div>
+            <div class="field">
+              <label for="ko_ip_patents">IP and patents <span class="req">*</span></label>
+              <textarea id="ko_ip_patents" name="ko_ip_patents" required placeholder="Patents, filings, licenses, trade secrets relevant to the system — or None"></textarea>
+            </div>
+            <div class="field">
+              <label for="ko_team">Team <span class="req">*</span></label>
+              <textarea id="ko_team" name="ko_team" required placeholder="Size, key skills, who is committed through Semi-Finals"></textarea>
+            </div>
+            <div class="field">
+              <label for="ko_internal_resources">Internal resources <span class="req">*</span></label>
+              <textarea id="ko_internal_resources" name="ko_internal_resources" required placeholder="Facilities, compute, lab access, partner support — or None"></textarea>
+            </div>
+            <div class="field">
+              <label for="ko_investment">Investment <span class="req">*</span></label>
+              <textarea id="ko_investment" name="ko_investment" required placeholder="Capital raised or committed for this challenge path — or None"></textarea>
+            </div>
+          </div>
+
+          <div class="knockout">
+            <h3>Will you work with ADNOC after the challenge?</h3>
+            <div class="field">
+              <div class="choice-row">
+                <label><input type="radio" name="ko_adnoc" value="yes" required /> Yes — we intend at least one post-challenge pathway (A–E)</label>
+                <label><input type="radio" name="ko_adnoc" value="no" /> No — challenge participation only</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="knockout">
+            <h3>In-Country Value (ICV) intent</h3>
+            <div class="field">
+              <div class="choice-row">
+                <label><input type="radio" name="ko_icv" value="yes" required /> Yes — we are willing to build value in the UAE (entity, assembly, staff, or suppliers)</label>
+                <label><input type="radio" name="ko_icv" value="exploring" /> Exploring — open to UAE presence with a timeline</label>
+                <label><input type="radio" name="ko_icv" value="no" /> No — no UAE build plan</label>
+              </div>
+              <span class="hint">ICV terms apply after an award; this screen tests commitment, not legal acceptance.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1 · Team -->
+        <section class="section" id="team" data-reveal>
+          <span class="filter-tag">Discriminators</span>
+          <p class="section-label">Section 1</p>
+          <h2>Team</h2>
+          <p class="section-hint">Who you are, who is on the roster, roles and time committed, and track record.</p>
+
+          <div class="field">
+            <span class="label">Organization type <span class="req">*</span></span>
+            <div class="chip-grid" role="radiogroup" aria-label="Organization type">
+              <label class="chip"><input type="radio" name="org_type" value="company" required /><span>Company</span></label>
+              <label class="chip"><input type="radio" name="org_type" value="university" /><span>University</span></label>
+              <label class="chip"><input type="radio" name="org_type" value="team" /><span>Team</span></label>
+              <label class="chip"><input type="radio" name="org_type" value="school" /><span>School</span></label>
+              <label class="chip"><input type="radio" name="org_type" value="individual" /><span>Individual</span></label>
+              <label class="chip"><input type="radio" name="org_type" value="sponsor" /><span>Sponsor</span></label>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="org_name">Organization / team name <span class="req">*</span></label>
+              <input type="text" id="org_name" name="org_name" required autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label for="org_country">Country / HQ <span class="req">*</span></label>
+              <input type="text" id="org_country" name="org_country" required />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="contact_name">Lead contact name <span class="req">*</span></label>
+              <input type="text" id="contact_name" name="contact_name" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="contact_role">Role / title <span class="req">*</span></label>
+              <input type="text" id="contact_role" name="contact_role" required />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="contact_email">Email <span class="req">*</span></label>
+              <input type="email" id="contact_email" name="contact_email" required autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="contact_phone">Phone <span class="req">*</span></label>
+              <input type="tel" id="contact_phone" name="contact_phone" required autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="robot_class">Robot / system class <span class="provisional">provisional</span> <span class="req">*</span></label>
+              <select id="robot_class" name="robot_class" required>
+                <option value="">Select…</option>
+                <option value="ground">Ground inspection / O&amp;M platform</option>
+                <option value="aerial">Aerial / UAV inspection</option>
+                <option value="manipulator">Manipulator / arm-centric</option>
+                <option value="multi">Multi-platform unified system</option>
+                <option value="other">Other (describe in system concept)</option>
+              </select>
+              <span class="hint">Not enumerated in the kick-off deck — provisional industry labels.</span>
+            </div>
+            <div class="field">
+              <label for="age_group">Applicant category <span class="req">*</span></label>
+              <select id="age_group" name="age_group" required>
+                <option value="">Select…</option>
+                <option value="professional">Professional / industry</option>
+                <option value="university">University research</option>
+                <option value="mixed">Mixed professional + academic</option>
+                <option value="student">Student-led university</option>
+                <option value="sponsor_na">Sponsor / not competing</option>
+              </select>
+              <span class="hint">How this application is organized — industry team, university lab, mixed, student-led, or sponsor.</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label">Team roster <span class="req">*</span></span>
+            <span class="hint" style="margin-bottom:0.65rem;display:block;">Add members with role and time committed. Email optional.</span>
+            <div class="roster" id="roster"></div>
+            <button type="button" class="btn btn-ghost btn-sm" id="add-member" style="margin-top:0.75rem;">+ Add member</button>
+          </div>
+
+          <div class="field">
+            <label for="track_record">Track record <span class="req">*</span></label>
+            <textarea id="track_record" name="track_record" required placeholder="Past challenges, field deployments, industrial customers, relevant publications or products…"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="adnoc_links">Existing ADNOC links <span class="req">*</span></label>
+            <select id="adnoc_links" name="adnoc_links" required>
+              <option value="">Select…</option>
+              <option value="none">None — no prior ADNOC relationship</option>
+              <option value="vendor">Current / past vendor or contractor</option>
+              <option value="pilot">Prior pilot or trial with ADNOC</option>
+              <option value="partner">Strategic / research partnership</option>
+              <option value="other">Other — describe below</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="adnoc_links_notes">ADNOC links — detail</label>
+            <textarea id="adnoc_links_notes" name="adnoc_links_notes" placeholder="Disclose any existing ADNOC relationships (deck asks for disclosure)."></textarea>
+          </div>
+        </section>
+
+        <!-- 2 · System concept -->
+        <section class="section" id="system" data-reveal>
+          <span class="filter-tag">Discriminators</span>
+          <p class="section-label">Section 2</p>
+          <h2>System concept</h2>
+          <p class="section-hint">Proposed unified system — platforms, sensors, arm — and how the operator stays in the loop.</p>
+
+          <div class="field">
+            <label for="platforms">Platforms <span class="req">*</span></label>
+            <textarea id="platforms" name="platforms" required placeholder="UGV, UAV, stationary, hybrid… form factors and count"></textarea>
+          </div>
+            <div class="field">
+              <label for="navigation_sensors">Navigation sensors <span class="req">*</span></label>
+              <textarea id="navigation_sensors" name="navigation_sensors" required placeholder="Localization / mapping / driving — e.g. LiDAR, nav cameras, IMU, GPS/UWB"></textarea>
+            </div>
+            <div class="field">
+              <label for="application_sensors">Application sensors <span class="req">*</span></label>
+              <textarea id="application_sensors" name="application_sensors" required placeholder="Mission / task sensors for the ADNOC use case — e.g. gas, thermal, NDT, inspection cameras"></textarea>
+            </div>
+            <div class="field">
+              <label for="arm">Manipulation hardware (arm) <span class="req">*</span></label>
+              <textarea id="arm" name="arm" required placeholder="Hardware: arm type, DOF, end-effectors — or N/A with rationale"></textarea>
+            </div>
+            <div class="field">
+              <label for="mobile_manipulation_software">Mobile manipulation software <span class="req">*</span></label>
+              <textarea id="mobile_manipulation_software" name="mobile_manipulation_software" required placeholder="Stack or plan for planning, control, grasping, whole-body — or N/A with rationale"></textarea>
+            </div>
+            <div class="field">
+              <label for="dual_arm">Dual-arm solutions <span class="req">*</span></label>
+              <select id="dual_arm" name="dual_arm" required>
+                <option value="">Select…</option>
+                <option value="dual_now">Dual-arm now — hardware and software in place</option>
+                <option value="dual_planned">Dual-arm planned for Semi-Finals / Finals</option>
+                <option value="single_only">Single-arm only — with rationale below</option>
+                <option value="none">No arm / not applicable — with rationale below</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="dual_arm_detail">Dual-arm approach / rationale <span class="req">*</span></label>
+              <textarea id="dual_arm_detail" name="dual_arm_detail" required placeholder="Describe the dual-arm approach, or why single-arm / none is sufficient for the ADNOC tasks"></textarea>
+            </div>
+            <div class="field">
+              <span class="label">Operator / control approach</span>
+              <span class="hint" style="display:block;margin-bottom:0.85rem;">ADNOC’s Humans objective keeps an operator in the loop — overseeing, deciding, and confirming. Mixed-initiative (human and AI working together) is the preferred framing; every mode should still say how the operator and system interact.</span>
+            </div>
+            <div class="field">
+              <label for="primary_control_mode">Primary control mode <span class="req">*</span></label>
+              <select id="primary_control_mode" name="primary_control_mode" required>
+                <option value="">Select…</option>
+                <option value="mixed_initiative">Mixed-initiative — human and AI work together</option>
+                <option value="fully_teleoperated">Fully teleoperated</option>
+                <option value="fully_autonomous">Fully autonomous</option>
+                <option value="other_hybrid">Other / hybrid (explain below)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="human_system_share_control">How the human and system share control <span class="req">*</span></label>
+              <textarea id="human_system_share_control" name="human_system_share_control" required placeholder="Interfaces, autonomy boundaries, fail-safes; for mixed-initiative describe collaboration (oversee / decide / confirm). For teleop or autonomy, still explain rationale and where the other modes appear as fallback."></textarea>
+            </div>
+            <div class="field">
+              <label for="human_intervene_vs_ai">When does the human intervene vs the AI act?</label>
+              <textarea id="human_intervene_vs_ai" name="human_intervene_vs_ai" placeholder="Optional — triggers for handoff, escalation, or AI-only stretches"></textarea>
+            </div>
+            <div class="field">
+              <label for="unified_description">Unified system description <span class="req">*</span></label>
+            <textarea id="unified_description" name="unified_description" required placeholder="How map, navigate, inspect, operate, and report work as one system"></textarea>
+          </div>
+          <div class="field">
+            <label for="goals">Goals for joining <span class="req">*</span></label>
+            <textarea id="goals" name="goals" required placeholder="What you hope to achieve — map to ADNOC objectives: Operations, Humans-in-loop, Unified system, Deployable, Commercialization &amp; ICV"></textarea>
+            <span class="hint">Favour the five ADNOC objectives from the kick-off deck.</span>
+          </div>
+        </section>
+
+        <!-- 3 · Evidence -->
+        <section class="section" id="evidence" data-reveal>
+          <span class="filter-tag">Discriminators</span>
+          <p class="section-label">Section 3</p>
+          <h2>Evidence</h2>
+          <p class="section-hint">Short video of current hardware on a related task, plus maturity of each core capability today.</p>
+
+          <div class="field">
+            <label for="video_url">Primary video URL (current hardware, related task) <span class="req">*</span></label>
+            <input type="url" id="video_url" name="video_url" required placeholder="https://…" />
+          </div>
+          <div class="field">
+            <label for="video_url_backup_1">Additional video URL (optional)</label>
+            <input type="url" id="video_url_backup_1" name="video_url_backup_1" placeholder="https://…" />
+          </div>
+          <div class="field">
+            <label for="video_url_backup_2">Additional video URL (optional)</label>
+            <input type="url" id="video_url_backup_2" name="video_url_backup_2" placeholder="https://…" />
+          </div>
+          <div class="field">
+            <label for="video_notes">What the video(s) show</label>
+            <textarea id="video_notes" name="video_notes" placeholder="Task, environment, autonomy level, date recorded — note which URL if more than one"></textarea>
+          </div>
+
+          <div class="field">
+            <span class="label">Capability maturity today <span class="req">*</span></span>
+            <span class="hint" style="display:block;margin-bottom:0.75rem;">1 = concept · 2 = lab · 3 = field trial · 4 = production-ready</span>
+            <div class="maturity-list">
+              <div class="maturity-row">
+                <span>Map</span>
+                <select name="maturity_map" required>
+                  <option value="">Select…</option>
+                  <option value="1">1 — Concept</option>
+                  <option value="2">2 — Lab</option>
+                  <option value="3">3 — Field trial</option>
+                  <option value="4">4 — Production-ready</option>
+                </select>
+              </div>
+              <div class="maturity-row">
+                <span>Navigate</span>
+                <select name="maturity_navigate" required>
+                  <option value="">Select…</option>
+                  <option value="1">1 — Concept</option>
+                  <option value="2">2 — Lab</option>
+                  <option value="3">3 — Field trial</option>
+                  <option value="4">4 — Production-ready</option>
+                </select>
+              </div>
+              <div class="maturity-row">
+                <span>Inspect</span>
+                <select name="maturity_inspect" required>
+                  <option value="">Select…</option>
+                  <option value="1">1 — Concept</option>
+                  <option value="2">2 — Lab</option>
+                  <option value="3">3 — Field trial</option>
+                  <option value="4">4 — Production-ready</option>
+                </select>
+              </div>
+              <div class="maturity-row">
+                <span>Operate</span>
+                <select name="maturity_operate" required>
+                  <option value="">Select…</option>
+                  <option value="1">1 — Concept</option>
+                  <option value="2">2 — Lab</option>
+                  <option value="3">3 — Field trial</option>
+                  <option value="4">4 — Production-ready</option>
+                </select>
+              </div>
+              <div class="maturity-row">
+                <span>Report</span>
+                <select name="maturity_report" required>
+                  <option value="">Select…</option>
+                  <option value="1">1 — Concept</option>
+                  <option value="2">2 — Lab</option>
+                  <option value="3">3 — Field trial</option>
+                  <option value="4">4 — Production-ready</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 · Resources & plan -->
+        <section class="section" id="resources" data-reveal>
+          <span class="filter-tag">Discriminators</span>
+          <p class="section-label">Section 4</p>
+          <h2>Resources &amp; plan</h2>
+          <p class="section-hint">Funding and hardware secured to reach Semi-Finals; milestones from May to September 2027.</p>
+
+          <div class="field">
+            <label for="funding">Funding secured for Semi-Finals path <span class="req">*</span></label>
+            <select id="funding" name="funding" required>
+              <option value="">Select…</option>
+              <option value="fully">Fully funded through Semi-Finals</option>
+              <option value="majority">Majority secured; gap under 25%</option>
+              <option value="partial">Partial — fundraising plan attached in notes</option>
+              <option value="seeking">Seeking funding; no commitment yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="hardware_secured">Hardware secured <span class="req">*</span></label>
+            <textarea id="hardware_secured" name="hardware_secured" required placeholder="Platforms, compute, sensors already owned or ordered with dates"></textarea>
+          </div>
+          <div class="field">
+            <label for="milestones">Milestones May – September 2027 <span class="req">*</span></label>
+            <textarea id="milestones" name="milestones" required placeholder="Month-by-month plan from early May prep through Sep 2027 Semi-Finals window"></textarea>
+          </div>
+          <div class="field">
+            <label for="resources_notes">Additional resource notes</label>
+            <textarea id="resources_notes" name="resources_notes" placeholder="Partners, facilities, travel budget…"></textarea>
+          </div>
+        </section>
+
+        <!-- 5 · Deployment -->
+        <section class="section" id="deployment" data-reveal>
+          <span class="filter-tag">Discriminators</span>
+          <p class="section-label">Section 5</p>
+          <h2>Deployment</h2>
+          <p class="section-hint">Not a demo — ready to work on a real ADNOC site. Safety/certification and industry trials.</p>
+
+          <div class="field">
+            <label for="safety_status">Safety &amp; certification status <span class="req">*</span></label>
+            <select id="safety_status" name="safety_status" required>
+              <option value="">Select…</option>
+              <option value="certified">Certified / site-accepted for industrial use</option>
+              <option value="in_progress">Certification in progress (named standard)</option>
+              <option value="plan">Documented plan; not started</option>
+              <option value="none">No safety / cert plan yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="safety_detail">Safety &amp; certification detail <span class="req">*</span></label>
+            <textarea id="safety_detail" name="safety_detail" required placeholder="Standards, ATEX/IECEx, functional safety, PPE reduction claims…"></textarea>
+          </div>
+          <div class="field">
+            <label for="industry_trials">Industry trials or customers so far <span class="req">*</span></label>
+            <textarea id="industry_trials" name="industry_trials" required placeholder="Sites, operators, outcomes — or none with honest timeline"></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="travel_arrival">Travel — arrival intent</label>
+              <input type="text" id="travel_arrival" name="travel_arrival" placeholder="e.g. Semi-Finals Q3 2027 / Finals Q1–Q2 2028" />
+            </div>
+            <div class="field">
+              <label for="travel_departure">Travel — departure intent</label>
+              <input type="text" id="travel_departure" name="travel_departure" placeholder="Approx. window or TBD" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="travel_notes">Visas, hotel, logistics notes</label>
+            <textarea id="travel_notes" name="travel_notes" placeholder="Visa support needed, hotel preference, equipment shipping…"></textarea>
+          </div>
+        </section>
+
+        <!-- 6 · ADNOC & ICV -->
+        <section class="section" id="adnoc-icv" data-reveal>
+          <span class="filter-tag">Discriminators</span>
+          <p class="section-label">Section 6</p>
+          <h2>ADNOC &amp; ICV</h2>
+          <p class="section-hint">Which post-challenge routes appeal (A–E), UAE presence, and a signed team-lead declaration.</p>
+
+          <div class="field">
+            <span class="label">Post-challenge pathways of interest <span class="req">*</span></span>
+            <span class="hint" style="display:block;margin-bottom:0.75rem;">Select all that apply and rate interest. Deeper UAE ties build more ICV.</span>
+            <div class="pathway-grid">
+              <label class="pathway">
+                <input type="checkbox" name="pathway_a" value="A" />
+                <span>
+                  <strong>A · ADNOC buys</strong>
+                  <small>Paid pilot, tender, direct award, framework, service model</small>
+                </span>
+                <select name="pathway_a_interest" aria-label="Interest in pathway A">
+                  <option value="">Interest</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+              <label class="pathway">
+                <input type="checkbox" name="pathway_b" value="B" />
+                <span>
+                  <strong>B · Licenses</strong>
+                  <small>Non-exclusive, exclusive, or licence to a UAE company</small>
+                </span>
+                <select name="pathway_b_interest" aria-label="Interest in pathway B">
+                  <option value="">Interest</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+              <label class="pathway">
+                <input type="checkbox" name="pathway_c" value="C" />
+                <span>
+                  <strong>C · Partner</strong>
+                  <small>Co-development, strategic partnership, joint venture</small>
+                </span>
+                <select name="pathway_c_interest" aria-label="Interest in pathway C">
+                  <option value="">Interest</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+              <label class="pathway">
+                <input type="checkbox" name="pathway_d" value="D" />
+                <span>
+                  <strong>D · Invest</strong>
+                  <small>Minority investment, acquisition, asset or team buy</small>
+                </span>
+                <select name="pathway_d_interest" aria-label="Interest in pathway D">
+                  <option value="">Interest</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+              <label class="pathway">
+                <input type="checkbox" name="pathway_e" value="E" />
+                <span>
+                  <strong>E · Ecosystem</strong>
+                  <small>Soft-landing in a UAE hub, spin-out</small>
+                </span>
+                <select name="pathway_e_interest" aria-label="Interest in pathway E">
+                  <option value="">Interest</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="uae_presence">UAE presence today <span class="req">*</span></label>
+            <select id="uae_presence" name="uae_presence" required>
+              <option value="">Select…</option>
+              <option value="entity">UAE entity already</option>
+              <option value="staff">Staff or assembly in UAE</option>
+              <option value="suppliers">UAE suppliers only</option>
+              <option value="plan">Plan with timeline (no presence yet)</option>
+              <option value="none">No UAE presence or plan</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="uae_timeline">UAE presence timeline <span class="req">*</span></label>
+            <textarea id="uae_timeline" name="uae_timeline" required placeholder="Entity, staff, assembly, Emirati hires, suppliers — and when"></textarea>
+          </div>
+
+          <div class="field">
+            <span class="label">Media consent <span class="req">*</span></span>
+            <div class="choice-row">
+              <label><input type="radio" name="media_consent" value="yes" required /> Yes — photos / video / quotes may be used for challenge communications</label>
+              <label><input type="radio" name="media_consent" value="no" /> No — do not use likeness or org marks without separate approval</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="media_notes">Media notes</label>
+            <textarea id="media_notes" name="media_notes" placeholder="Restrictions, brand guidelines, preferred contacts…"></textarea>
+          </div>
+
+          <div class="knockout" style="margin-top:1.5rem;">
+            <h3>Team-lead declaration</h3>
+            <div class="field">
+              <label>
+                <input type="checkbox" name="declaration" value="yes" required />
+                I am the team lead (or authorised signatory). The information in this application is accurate. We understand there is no IP condition to apply or win; ICV terms apply after an award. We commit to the answers given on unified-system delivery, ADNOC pathways, and UAE value. <span class="req">*</span>
+              </label>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="declaration_name">Typed full name <span class="req">*</span></label>
+                <input type="text" id="declaration_name" name="declaration_name" required />
+              </div>
+              <div class="field">
+                <label for="declaration_date">Date <span class="req">*</span></label>
+                <input type="date" id="declaration_date" name="declaration_date" required />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="actions-bar">
+          <button type="submit" class="btn">Submit application</button>
+          <button type="button" class="btn btn-ghost" id="clear-draft">Clear saved draft</button>
+        </div>
+      </form>
+    </main>
+
+    <section class="success" id="success" aria-live="polite">
+      <h2>Application captured</h2>
+      <p>Stored on the CFP server, a JSON backup downloaded to your device, and a mail draft opened for organizers (To left blank — no organizer email in the kick-off deck). Keep the JSON as your record.</p>
+      <dl class="success-summary" id="success-summary"></dl>
+      <div class="actions-bar">
+        <button type="button" class="btn" id="new-application">Start another draft</button>
+      </div>
+    </section>
+
+    <footer>
+      MBZIRC 2026 – Energy Industry Edition · CFP intake draft · Confidential kick-off context · Not an official published form
+    </footer>
+  </div>
+
+  <div class="draft-toast" id="draft-toast">Draft saved locally</div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "mbzirc-cfp-intake-draft-v1";
+      const form = document.getElementById("cfp-form");
+      const rosterEl = document.getElementById("roster");
+      const toast = document.getElementById("draft-toast");
+      const errorBanner = document.getElementById("error-banner");
+      let memberCount = 0;
+      let toastTimer = null;
+      let saveTimer = null;
+
+      function showToast() {
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 1600);
+      }
+
+      function addMember(data) {
+        memberCount += 1;
+        const id = memberCount;
+        const div = document.createElement("div");
+        div.className = "member";
+        div.dataset.memberId = String(id);
+        div.innerHTML = `
+          <div class="member-head">
+            <strong>Member ${id}</strong>
+            <button type="button" class="remove-btn" data-remove="${id}">Remove</button>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Name <span class="req">*</span></label>
+              <input type="text" name="member_name_${id}" required value="${escapeAttr(data?.name || "")}" />
+            </div>
+            <div class="field">
+              <label>Role <span class="req">*</span></label>
+              <input type="text" name="member_role_${id}" required value="${escapeAttr(data?.role || "")}" placeholder="e.g. Lead engineer, autonomy" />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Email <span class="hint">(optional)</span></label>
+              <input type="email" name="member_email_${id}" value="${escapeAttr(data?.email || "")}" />
+            </div>
+            <div class="field">
+              <label>Time committed <span class="req">*</span></label>
+              <select name="member_time_${id}" required>
+                <option value="">Select…</option>
+                <option value="full">Full-time on challenge</option>
+                <option value="gt50">&gt;50% FTE</option>
+                <option value="25_50">25–50% FTE</option>
+                <option value="lt25">&lt;25% FTE</option>
+                <option value="advisor">Advisor / intermittent</option>
+              </select>
+            </div>
+          </div>`;
+        rosterEl.appendChild(div);
+        if (data?.time) {
+          const sel = div.querySelector(`select[name="member_time_${id}"]`);
+          sel.value = data.time;
+        }
+        div.querySelector("[data-remove]").addEventListener("click", () => {
+          if (rosterEl.children.length <= 1) {
+            flashError("Keep at least one roster member.");
+            return;
+          }
+          div.remove();
+          scheduleSave();
+        });
+      }
+
+      function escapeAttr(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/"/g, "&quot;")
+          .replace(/</g, "&lt;");
+      }
+
+      function flashError(msg) {
+        errorBanner.textContent = msg;
+        errorBanner.classList.add("show");
+        errorBanner.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function clearError() {
+        errorBanner.classList.remove("show");
+        errorBanner.textContent = "";
+      }
+
+      function collectRoster() {
+        const members = [];
+        rosterEl.querySelectorAll(".member").forEach((el) => {
+          const id = el.dataset.memberId;
+          members.push({
+            name: el.querySelector(`[name="member_name_${id}"]`)?.value.trim() || "",
+            role: el.querySelector(`[name="member_role_${id}"]`)?.value.trim() || "",
+            email: el.querySelector(`[name="member_email_${id}"]`)?.value.trim() || "",
+            timeCommitted: el.querySelector(`[name="member_time_${id}"]`)?.value || "",
+          });
+        });
+        return members;
+      }
+
+      function getPathways() {
+        const letters = ["a", "b", "c", "d", "e"];
+        const out = [];
+        letters.forEach((L) => {
+          const checked = form.querySelector(`[name="pathway_${L}"]`)?.checked;
+          if (checked) {
+            out.push({
+              pathway: L.toUpperCase(),
+              interest: form.querySelector(`[name="pathway_${L}_interest"]`)?.value || "",
+            });
+          }
+        });
+        return out;
+      }
+
+      function formToObject() {
+        const fd = new FormData(form);
+        const obj = {
+          meta: {
+            event: "MBZIRC 2026 – Energy Industry Edition",
+            formType: "CFP open-call intake",
+            capturedAt: new Date().toISOString(),
+            sourceDeck: "MBZIRC kick-off with David Bruemmer (confidential)",
+          },
+          knockouts: {
+            unifiedSystemReady: fd.get("ko_unified"),
+            semiFinalsEvidence: {
+              currentHardware: fd.get("ko_current_hardware"),
+              currentSoftware: fd.get("ko_current_software"),
+              priorFieldDeployments: fd.get("ko_prior_field_deployments"),
+              ipAndPatents: fd.get("ko_ip_patents"),
+              team: fd.get("ko_team"),
+              internalResources: fd.get("ko_internal_resources"),
+              investment: fd.get("ko_investment"),
+            },
+            workWithAdnoc: fd.get("ko_adnoc"),
+            icvIntent: fd.get("ko_icv"),
+          },
+          team: {
+            orgType: fd.get("org_type"),
+            orgName: fd.get("org_name"),
+            orgCountry: fd.get("org_country"),
+            contact: {
+              name: fd.get("contact_name"),
+              role: fd.get("contact_role"),
+              email: fd.get("contact_email"),
+              phone: fd.get("contact_phone"),
+            },
+            robotClass: fd.get("robot_class"),
+            robotClassNote: "provisional — not enumerated in kick-off deck",
+            applicantCategory: fd.get("age_group"),
+            roster: collectRoster(),
+            trackRecord: fd.get("track_record"),
+            adnocLinks: fd.get("adnoc_links"),
+            adnocLinksNotes: fd.get("adnoc_links_notes"),
+          },
+          systemConcept: {
+            platforms: fd.get("platforms"),
+            navigationSensors: fd.get("navigation_sensors"),
+            applicationSensors: fd.get("application_sensors"),
+            manipulationHardware: fd.get("arm"),
+            mobileManipulationSoftware: fd.get("mobile_manipulation_software"),
+            dualArm: fd.get("dual_arm"),
+            dualArmDetail: fd.get("dual_arm_detail"),
+            primaryControlMode: fd.get("primary_control_mode"),
+            humanSystemShareControl: fd.get("human_system_share_control"),
+            humanInterveneVsAi: fd.get("human_intervene_vs_ai"),
+            unifiedDescription: fd.get("unified_description"),
+            goals: fd.get("goals"),
+          },
+          evidence: {
+            videoUrl: fd.get("video_url"),
+            videoUrlBackup1: fd.get("video_url_backup_1"),
+            videoUrlBackup2: fd.get("video_url_backup_2"),
+            videoNotes: fd.get("video_notes"),
+            maturity: {
+              map: fd.get("maturity_map"),
+              navigate: fd.get("maturity_navigate"),
+              inspect: fd.get("maturity_inspect"),
+              operate: fd.get("maturity_operate"),
+              report: fd.get("maturity_report"),
+            },
+          },
+          resourcesPlan: {
+            funding: fd.get("funding"),
+            hardwareSecured: fd.get("hardware_secured"),
+            milestonesMaySep2027: fd.get("milestones"),
+            notes: fd.get("resources_notes"),
+          },
+          deployment: {
+            safetyStatus: fd.get("safety_status"),
+            safetyDetail: fd.get("safety_detail"),
+            industryTrials: fd.get("industry_trials"),
+            travel: {
+              arrivalIntent: fd.get("travel_arrival"),
+              departureIntent: fd.get("travel_departure"),
+              visasHotelNotes: fd.get("travel_notes"),
+            },
+          },
+          adnocIcv: {
+            pathways: getPathways(),
+            uaePresence: fd.get("uae_presence"),
+            uaeTimeline: fd.get("uae_timeline"),
+            mediaConsent: fd.get("media_consent"),
+            mediaNotes: fd.get("media_notes"),
+            declaration: {
+              accepted: fd.get("declaration") === "yes",
+              name: fd.get("declaration_name"),
+              date: fd.get("declaration_date"),
+            },
+          },
+        };
+        return obj;
+      }
+
+      function serializeDraft() {
+        const data = {};
+        form.querySelectorAll("input, select, textarea").forEach((el) => {
+          if (!el.name) return;
+          if (el.type === "radio" || el.type === "checkbox") {
+            if (el.checked) data[el.name] = el.value;
+          } else {
+            data[el.name] = el.value;
+          }
+        });
+        data.__roster = collectRoster();
+        data.__checkboxes = {};
+        form.querySelectorAll('input[type="checkbox"]').forEach((el) => {
+          data.__checkboxes[el.name] = el.checked;
+        });
+        return data;
+      }
+
+      function scheduleSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeDraft()));
+            showToast();
+          } catch (_) { /* ignore quota */ }
+        }, 400);
+      }
+
+      function restoreDraft() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            addMember({});
+            return;
+          }
+          const data = JSON.parse(raw);
+          const roster = Array.isArray(data.__roster) && data.__roster.length ? data.__roster : [{}];
+          roster.forEach((m) => addMember(m));
+          Object.keys(data).forEach((key) => {
+            if (key.startsWith("__")) return;
+            if (key.startsWith("member_")) return;
+            const els = form.querySelectorAll(`[name="${CSS.escape(key)}"]`);
+            els.forEach((el) => {
+              if (el.type === "radio" || el.type === "checkbox") {
+                el.checked = el.value === data[key];
+              } else {
+                el.value = data[key];
+              }
+            });
+          });
+          if (data.__checkboxes) {
+            Object.keys(data.__checkboxes).forEach((name) => {
+              const el = form.querySelector(`[name="${CSS.escape(name)}"]`);
+              if (el && el.type === "checkbox") el.checked = !!data.__checkboxes[name];
+            });
+          }
+        } catch (_) {
+          if (!rosterEl.children.length) addMember({});
+        }
+      }
+
+      function slugify(s) {
+        return String(s || "org")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "")
+          .slice(0, 40) || "org";
+      }
+
+      function downloadJson(obj) {
+        const org = slugify(obj.team?.orgName);
+        const ts = new Date().toISOString().replace(/[:.]/g, "-");
+        const filename = `mbzirc-intake-${org}-${ts}.json`;
+        const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        return filename;
+      }
+
+      function openMailto(obj) {
+        const subject = `MBZIRC 2026 Energy Industry CFP — ${obj.team.orgName || "Application"}`;
+        const pathways = (obj.adnocIcv.pathways || []).map((p) => `${p.pathway}(${p.interest || "?"})`).join(", ") || "none selected";
+        const body = [
+          "MBZIRC 2026 – Energy Industry Edition — CFP intake",
+          "(Organizer To: left blank — no email in kick-off deck; paste recipient before send.)",
+          "",
+          `Org: ${obj.team.orgName} (${obj.team.orgType})`,
+          `Contact: ${obj.team.contact.name} <${obj.team.contact.email}> · ${obj.team.contact.phone}`,
+          `Role: ${obj.team.contact.role}`,
+          `Country: ${obj.team.orgCountry}`,
+          `Robot class (provisional): ${obj.team.robotClass}`,
+          `Applicant category: ${obj.team.applicantCategory}`,
+          "",
+          `Readiness Assessment — unified: ${obj.knockouts.unifiedSystemReady}; ADNOC: ${obj.knockouts.workWithAdnoc}; ICV: ${obj.knockouts.icvIntent}`,
+          `Semi-Finals evidence — hardware: ${(obj.knockouts.semiFinalsEvidence.currentHardware || "").slice(0, 120)}`,
+          `  software: ${(obj.knockouts.semiFinalsEvidence.currentSoftware || "").slice(0, 120)}`,
+          `  field deployments: ${(obj.knockouts.semiFinalsEvidence.priorFieldDeployments || "").slice(0, 120)}`,
+          `  IP/patents: ${(obj.knockouts.semiFinalsEvidence.ipAndPatents || "").slice(0, 120)}`,
+          `  team: ${(obj.knockouts.semiFinalsEvidence.team || "").slice(0, 120)}`,
+          `  internal resources: ${(obj.knockouts.semiFinalsEvidence.internalResources || "").slice(0, 120)}`,
+          `  investment: ${(obj.knockouts.semiFinalsEvidence.investment || "").slice(0, 120)}`,
+          `Roster: ${obj.team.roster.length} member(s)`,
+          `Nav sensors: ${(obj.systemConcept.navigationSensors || "").slice(0, 160)}`,
+          `App sensors: ${(obj.systemConcept.applicationSensors || "").slice(0, 160)}`,
+          `Manipulation hardware: ${(obj.systemConcept.manipulationHardware || "").slice(0, 120)}`,
+          `Mobile manip software: ${(obj.systemConcept.mobileManipulationSoftware || "").slice(0, 120)}`,
+          `Dual-arm: ${obj.systemConcept.dualArm} — ${(obj.systemConcept.dualArmDetail || "").slice(0, 120)}`,
+          `Control mode: ${obj.systemConcept.primaryControlMode}`,
+          `Share control: ${(obj.systemConcept.humanSystemShareControl || "").slice(0, 160)}`,
+          `Intervene vs AI: ${(obj.systemConcept.humanInterveneVsAi || "").slice(0, 120) || "—"}`,
+          `Video (primary): ${obj.evidence.videoUrl}`,
+          `Video (additional): ${[obj.evidence.videoUrlBackup1, obj.evidence.videoUrlBackup2].filter(Boolean).join(" · ") || "—"}`,
+          `Funding: ${obj.resourcesPlan.funding}`,
+          `Safety: ${obj.deployment.safetyStatus}`,
+          `Pathways: ${pathways}`,
+          `UAE presence: ${obj.adnocIcv.uaePresence}`,
+          `Media consent: ${obj.adnocIcv.mediaConsent}`,
+          `Goals: ${(obj.systemConcept.goals || "").slice(0, 280)}`,
+          "",
+          "Full submission is in the downloaded JSON file attached by the applicant.",
+          "",
+          JSON.stringify(obj, null, 2).slice(0, 1800) + "…",
+        ].join("\n");
+        const href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = href;
+      }
+
+      function showSuccess(obj, filename, storeInfo) {
+        document.getElementById("form-main").classList.add("hidden");
+        document.getElementById("hero").classList.add("hidden");
+        const success = document.getElementById("success");
+        success.classList.add("show");
+        const dl = document.getElementById("success-summary");
+        const rows = [
+          ["Server storage", storeInfo || "pending"],
+          ["Downloaded file", filename],
+          ["Organization", `${obj.team.orgName} · ${obj.team.orgType}`],
+          ["Contact", `${obj.team.contact.name} · ${obj.team.contact.email} · ${obj.team.contact.phone}`],
+          ["Roster", `${obj.team.roster.length} member(s): ${obj.team.roster.map((m) => m.name).filter(Boolean).join(", ") || "—"}`],
+          ["Robot class / applicant category", `${obj.team.robotClass} / ${obj.team.applicantCategory}`],
+          ["Readiness Assessment", `Unified ${obj.knockouts.unifiedSystemReady}; ADNOC ${obj.knockouts.workWithAdnoc}; ICV ${obj.knockouts.icvIntent}`],
+          ["Current hardware", obj.knockouts.semiFinalsEvidence.currentHardware],
+          ["Current software", obj.knockouts.semiFinalsEvidence.currentSoftware],
+          ["Prior field deployments", obj.knockouts.semiFinalsEvidence.priorFieldDeployments],
+          ["IP and patents", obj.knockouts.semiFinalsEvidence.ipAndPatents],
+          ["Team (knock-out)", obj.knockouts.semiFinalsEvidence.team],
+          ["Internal resources", obj.knockouts.semiFinalsEvidence.internalResources],
+          ["Investment", obj.knockouts.semiFinalsEvidence.investment],
+          ["Navigation sensors", obj.systemConcept.navigationSensors],
+          ["Application sensors", obj.systemConcept.applicationSensors],
+          ["Manipulation hardware", obj.systemConcept.manipulationHardware],
+          ["Mobile manipulation software", obj.systemConcept.mobileManipulationSoftware],
+          ["Dual-arm", `${obj.systemConcept.dualArm} — ${obj.systemConcept.dualArmDetail || ""}`],
+          ["Primary control mode", obj.systemConcept.primaryControlMode],
+          ["Human / system share control", obj.systemConcept.humanSystemShareControl],
+          ["Human intervene vs AI", obj.systemConcept.humanInterveneVsAi || "—"],
+          ["Primary video", obj.evidence.videoUrl],
+          ["Additional videos", [obj.evidence.videoUrlBackup1, obj.evidence.videoUrlBackup2].filter(Boolean).join(" · ") || "—"],
+          ["Maturity (M/N/I/O/R)", Object.values(obj.evidence.maturity).join(" / ")],
+          ["Funding", obj.resourcesPlan.funding],
+          ["Safety", obj.deployment.safetyStatus],
+          ["Travel", [obj.deployment.travel.arrivalIntent, obj.deployment.travel.departureIntent].filter(Boolean).join(" → ") || "—"],
+          ["Pathways", (obj.adnocIcv.pathways || []).map((p) => p.pathway).join(", ") || "—"],
+          ["UAE presence", obj.adnocIcv.uaePresence],
+          ["Media consent", obj.adnocIcv.mediaConsent],
+          ["Goals", obj.systemConcept.goals],
+          ["Declaration", `${obj.adnocIcv.declaration.name} · ${obj.adnocIcv.declaration.date}`],
+        ];
+        dl.innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${escapeHtml(String(v || "—"))}</dd>`).join("");
+        success.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function escapeHtml(s) {
+        return s
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function validateExtra() {
+        if (getPathways().length === 0) {
+          return "Select at least one post-challenge pathway (A–E) with interest level.";
+        }
+        const badPath = getPathways().find((p) => !p.interest);
+        if (badPath) return `Set interest level for pathway ${badPath.pathway}.`;
+
+        if (form.ko_unified.value === "no") {
+          return "Knock-out: a unified working system by Semi-Finals is required to proceed.";
+        }
+        if (form.ko_adnoc.value === "no") {
+          return "Knock-out: intent to work with ADNOC after the challenge is required.";
+        }
+        if (form.ko_icv.value === "no") {
+          return "Knock-out: ICV / UAE value intent is required (willingness to build value in the UAE).";
+        }
+        if (collectRoster().length < 1) return "Add at least one roster member.";
+        return null;
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearError();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          flashError("Please complete required fields (browser highlights the first gap).");
+          return;
+        }
+        const extra = validateExtra();
+        if (extra) {
+          flashError(extra);
+          return;
+        }
+        const obj = formToObject();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Submitting…";
+        }
+        let storeInfo = "local JSON only (server unreachable)";
+        try {
+          const res = await fetch("/api/submit", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(obj),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.id) {
+            storeInfo = `Saved · id ${data.id} · auto-score ${data.total}/25`;
+          } else {
+            storeInfo = `Server error ${res.status} — JSON download kept as backup`;
+          }
+        } catch (err) {
+          storeInfo = "Network error — JSON download kept as backup";
+        }
+        const filename = downloadJson(obj);
+        try { openMailto(obj); } catch (_) {}
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        showSuccess(obj, filename, storeInfo);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit application";
+        }
+      });
+
+      form.addEventListener("input", scheduleSave);
+      form.addEventListener("change", scheduleSave);
+      document.getElementById("add-member").addEventListener("click", () => {
+        addMember({});
+        scheduleSave();
+      });
+
+      document.getElementById("clear-draft").addEventListener("click", () => {
+        if (!confirm("Clear the saved draft and reset the form?")) return;
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        form.reset();
+        rosterEl.innerHTML = "";
+        memberCount = 0;
+        addMember({});
+        clearError();
+      });
+
+      document.getElementById("new-application").addEventListener("click", () => {
+        location.reload();
+      });
+
+      // Section reveal
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) en.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      );
+      document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+
+      // Default declaration date
+      const dateEl = document.getElementById("declaration_date");
+      if (dateEl && !dateEl.value) {
+        dateEl.value = new Date().toISOString().slice(0, 10);
+      }
+
+      restoreDraft();
+    })();
+  </script>
 </body>
 </html>
