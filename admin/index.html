@@ -68,7 +68,7 @@
       background: transparent; color: var(--sand);
       border: 1px solid var(--line);
     }
-    input[type="password"], input[type="number"], textarea, select {
+    input[type="password"], input[type="number"], input[type="file"], textarea, select {
       width: 100%; padding: 0.65rem 0.8rem;
       background: rgba(19, 40, 54, 0.85);
       border: 1px solid var(--line); border-radius: var(--radius);
@@ -76,7 +76,7 @@
     }
     textarea { min-height: 72px; resize: vertical; }
     #login-panel {
-      max-width: 360px; margin: 4rem auto; padding: 1.5rem;
+      max-width: 420px; margin: 4rem auto; padding: 1.5rem;
       border: 1px solid var(--line); border-radius: var(--radius);
       background: rgba(19, 40, 54, 0.55);
     }
@@ -86,7 +86,7 @@
     }
     #login-panel p { color: var(--muted); font-size: 0.85rem; margin: 0 0 1rem; }
     .err { color: var(--danger); font-size: 0.85rem; margin-top: 0.65rem; }
-    .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; align-items: center; }
     .layout { display: grid; grid-template-columns: minmax(240px, 320px) 1fr; gap: 1rem; }
     @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
     .list {
@@ -140,15 +140,30 @@
     .empty { color: var(--muted); padding: 2rem 0; text-align: center; }
     .hidden { display: none !important; }
     .ko-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .hint { color: var(--muted); font-size: 0.8rem; }
+    .toast {
+      position: fixed; bottom: 1.25rem; right: 1.25rem;
+      background: rgba(42, 154, 154, 0.95); color: #041018;
+      padding: 0.65rem 0.9rem; border-radius: var(--radius);
+      font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.05em;
+      text-transform: uppercase; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+      z-index: 20;
+    }
+    .toast.show { opacity: 1; }
   </style>
 </head>
 <body>
   <header>
     <h1>MBZIRC CFP <span>Scoring</span></h1>
     <div id="header-actions" class="hidden">
+      <label class="btn btn-ghost" style="display:inline-flex;align-items:center;gap:0.4rem;">
+        Import JSON
+        <input type="file" id="import-files" accept="application/json,.json" multiple class="hidden" />
+      </label>
       <button type="button" class="btn btn-ghost" id="btn-refresh">Refresh</button>
       <button type="button" class="btn btn-ghost" id="btn-csv">Export CSV</button>
       <button type="button" class="btn btn-ghost" id="btn-json">Export JSON</button>
+      <button type="button" class="btn btn-ghost" id="btn-clear">Clear store</button>
       <button type="button" class="btn btn-ghost" id="btn-logout">Log out</button>
     </div>
   </header>
@@ -156,7 +171,7 @@
   <div class="wrap">
     <div id="login-panel">
       <h2>Admin access</h2>
-      <p>Shared secret from hosting notes (env <code>ADMIN_PASSWORD</code>).</p>
+      <p>Shared scoring password for the MBZIRC review team. Works on this GitHub Pages host — no tunnel required.</p>
       <form id="login-form">
         <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
         <div style="margin-top:0.85rem;">
@@ -167,19 +182,29 @@
     </div>
 
     <div id="app" class="hidden">
+      <p class="hint" style="margin:0 0 1rem;">
+        Import applicant JSON downloads from the CFP form. Scores and overrides stay in this browser (export to share with teammates).
+      </p>
       <div class="toolbar">
         <span id="count-label" style="color:var(--muted);font-size:0.85rem;align-self:center;"></span>
       </div>
       <div class="layout">
         <div class="list" id="list"></div>
         <div class="detail" id="detail">
-          <p class="empty">Select a submission</p>
+          <p class="empty">Import a submission JSON, then select it</p>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="toast" id="toast"></div>
+
   <script>
+    // Shared team secret for the static Pages scoring UI.
+    const ADMIN_PASSWORD = "mbzirc-cfp-score-2026";
+    const STORE_KEY = "mbzirc-cfp-score-store-v1";
+    const SESSION_KEY = "mbzirc_admin_pw";
+
     const DIM_LABELS = {
       techMaturity: "1 · Tech maturity",
       applicationSuitability: "2 · Application suitability",
@@ -188,32 +213,248 @@
       uaeIcvWillingness: "5 · UAE ICV willingness",
     };
 
-    let password = sessionStorage.getItem("mbzirc_admin_pw") || "";
-    let submissions = [];
+    let password = sessionStorage.getItem(SESSION_KEY) || "";
+    let store = loadStore();
     let selectedId = null;
     let currentRecord = null;
 
-    function authHeaders() {
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    function loadStore() {
+      try {
+        const raw = localStorage.getItem(STORE_KEY);
+        if (!raw) return { submissions: {} };
+        const data = JSON.parse(raw);
+        return { submissions: data.submissions || {} };
+      } catch {
+        return { submissions: {} };
+      }
+    }
+
+    function saveStore() {
+      localStorage.setItem(STORE_KEY, JSON.stringify(store));
+    }
+
+    function clamp(n, lo, hi) {
+      return Math.max(lo, Math.min(hi, n));
+    }
+
+    function maturityLevel(mat, key) {
+      const v = mat?.[key];
+      if (v == null) return 0;
+      if (typeof v === "object") return Number(v.level) || 0;
+      return Number(v) || 0;
+    }
+
+    function avg(nums) {
+      const xs = nums.filter((n) => Number.isFinite(n) && n > 0);
+      if (!xs.length) return 0;
+      return xs.reduce((a, b) => a + b, 0) / xs.length;
+    }
+
+    function autoScore(app) {
+      const ko = app.knockouts || {};
+      const team = app.team || {};
+      const sys = app.systemConcept || {};
+      const ev = app.evidence || {};
+      const res = app.resourcesPlan || {};
+      const dep = app.deployment || {};
+      const icv = app.adnocIcv || {};
+      const mat = ev.maturity || {};
+      const sub = ev.subtasks || {};
+
+      const unifiedVal = ko.unifiedSystemReady || "";
+      const abuVal = ko.abuDhabiTravelWillingness || "";
+      const adnocVal = ko.workWithAdnoc || "";
+      const icvVal = ko.icvIntent || "";
+
+      const knockouts = {
+        unified: { value: unifiedVal, pass: unifiedVal === "yes" },
+        abuDhabiTravel: { value: abuVal, pass: abuVal !== "no" && abuVal !== "" },
+        adnoc: { value: adnocVal, pass: adnocVal === "yes" },
+        icv: { value: icvVal, pass: icvVal !== "no", hardFail: icvVal === "no" },
+        unifiedFail: unifiedVal !== "yes",
+        adnocFail: adnocVal !== "yes",
+        icvFail: icvVal === "no",
+      };
+
+      const matKeys = ["map", "navigate", "inspect", "operate", "maintain", "report"];
+      const matAvg = avg(matKeys.map((k) => maturityLevel(mat, k)));
+      // maturity form is 1–4 → map to 0–5
+      let tech = matAvg ? clamp((matAvg / 4) * 5, 0, 5) : 1;
+      const subLevels = Object.values(sub).map((s) => Number(s?.level));
+      const subAvg = avg(subLevels);
+      if (subAvg) tech = clamp(0.65 * tech + 0.35 * ((subAvg / 3) * 5), 0, 5);
+      if (ev.videos?.primary?.type === "concept") tech = clamp(tech - 0.7, 0, 5);
+      if (ev.videos?.primary?.type === "real") tech = clamp(tech + 0.3, 0, 5);
+      tech = Math.round(tech * 10) / 10;
+
+      let appSuit = 2;
+      if (dep.industryTrials && !/^none$/i.test(String(dep.industryTrials).trim())) appSuit += 1;
+      if (["certified", "in_progress"].includes(dep.safetyStatus)) appSuit += 1;
+      if (["mobile_manip_now", "dual_now"].includes(sys.mobileManipulator || sys.dualArm)) appSuit += 0.5;
+      if (["fully", "majority"].includes(res.funding)) appSuit += 0.5;
+      appSuit = clamp(Math.round(appSuit * 10) / 10, 0, 5);
+
+      let human = 2;
+      const mode = sys.primaryControlMode || "";
+      if (mode === "mixed_initiative") human = 4.5;
+      else if (mode === "other_hybrid") human = 3.5;
+      else if (mode === "fully_teleoperated") human = 3;
+      else if (mode === "fully_autonomous") human = 2.5;
+      if ((sys.humanSystemShareControl || "").length > 80) human = clamp(human + 0.4, 0, 5);
+      human = Math.round(human * 10) / 10;
+
+      let adnocScore = 1;
+      if (adnocVal === "yes") adnocScore += 2;
+      const pathways = icv.pathways || [];
+      adnocScore += clamp(pathways.length * 0.4, 0, 1.6);
+      if (["vendor", "pilot", "partner"].includes(team.adnocLinks)) adnocScore += 0.6;
+      adnocScore = clamp(Math.round(adnocScore * 10) / 10, 0, 5);
+
+      let uaeScore = 1;
+      if (icvVal === "yes") uaeScore += 1.5;
+      else if (icvVal === "exploring") uaeScore += 0.7;
+      if (["entity", "staff"].includes(icv.uaePresence)) uaeScore += 1.5;
+      else if (icv.uaePresence === "plan") uaeScore += 0.8;
+      else if (icv.uaePresence === "suppliers") uaeScore += 0.5;
+      const travel = dep.uaeTravelWillingness || abuVal;
+      if (travel === "yes_both" || travel === "yes") uaeScore += 0.8;
+      else if (travel === "yes_semi") uaeScore += 0.5;
+      uaeScore = clamp(Math.round(uaeScore * 10) / 10, 0, 5);
+
+      const dimensions = {
+        techMaturity: {
+          autoScore: tech,
+          score: tech,
+          overridden: false,
+          note: "",
+          rationale: `Maturity avg ${matAvg || "—"}/4; sub-task evidence avg ${subAvg || "—"}/3; primary video ${ev.videos?.primary?.type || "untyped"}.`,
+        },
+        applicationSuitability: {
+          autoScore: appSuit,
+          score: appSuit,
+          overridden: false,
+          note: "",
+          rationale: `Safety ${dep.safetyStatus || "—"}; funding ${res.funding || "—"}; manipulator ${sys.mobileManipulator || sys.dualArm || "—"}.`,
+        },
+        humanInteraction: {
+          autoScore: human,
+          score: human,
+          overridden: false,
+          note: "",
+          rationale: `Primary control mode: ${mode || "—"}.`,
+        },
+        adnocWillingness: {
+          autoScore: adnocScore,
+          score: adnocScore,
+          overridden: false,
+          note: "",
+          rationale: `ADNOC KO ${adnocVal || "—"}; ${pathways.length} pathway(s); links ${team.adnocLinks || "—"}.`,
+        },
+        uaeIcvWillingness: {
+          autoScore: uaeScore,
+          score: uaeScore,
+          overridden: false,
+          note: "",
+          rationale: `ICV ${icvVal || "—"}; UAE presence ${icv.uaePresence || "—"}; travel ${travel || "—"}.`,
+        },
+      };
+
+      const total = Math.round(
+        Object.values(dimensions).reduce((s, d) => s + Number(d.score || 0), 0) * 10
+      ) / 10;
+
+      return { knockouts, dimensions, total };
+    }
+
+    function effectiveOf(record) {
+      const auto = autoScore(record.application || {});
+      const dims = {};
+      for (const key of Object.keys(DIM_LABELS)) {
+        const base = auto.dimensions[key];
+        const ov = (record.overrides || {})[key];
+        if (ov && ov.score != null && ov.score !== "") {
+          dims[key] = {
+            ...base,
+            score: Number(ov.score),
+            note: ov.note || "",
+            overridden: true,
+          };
+        } else {
+          dims[key] = { ...base, overridden: false };
+        }
+      }
+      const total = Math.round(
+        Object.values(dims).reduce((s, d) => s + Number(d.score || 0), 0) * 10
+      ) / 10;
+      return { knockouts: auto.knockouts, dimensions: dims, total };
+    }
+
+    function summaryOf(record) {
+      const eff = effectiveOf(record);
+      const team = record.application?.team || {};
       return {
-        Authorization: `Bearer ${password}`,
-        "Content-Type": "application/json",
+        id: record.id,
+        orgName: team.orgName || "—",
+        contactName: team.contact?.name || "",
+        country: team.orgCountry || "",
+        total: eff.total,
+        knockouts: {
+          unifiedFail: eff.knockouts.unifiedFail,
+          adnocFail: eff.knockouts.adnocFail,
+          icvFail: eff.knockouts.icvFail,
+        },
       };
     }
 
-    async function api(path, opts = {}) {
-      const res = await fetch(path, {
-        ...opts,
-        headers: { ...authHeaders(), ...(opts.headers || {}) },
-      });
-      if (res.status === 401) throw new Error("unauthorized");
-      const ct = res.headers.get("content-type") || "";
-      if (ct.includes("application/json")) {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || res.statusText);
-        return data;
+    function listRecords() {
+      return Object.values(store.submissions)
+        .map(summaryOf)
+        .sort((a, b) => b.total - a.total || a.orgName.localeCompare(b.orgName));
+    }
+
+    function makeId(app) {
+      const org = String(app?.team?.orgName || "org")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .slice(0, 32) || "org";
+      return `${org}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+    }
+
+    function normalizeApplication(raw) {
+      // Accept full CFP JSON or a wrapped { application: ... }
+      if (raw && raw.application && raw.team == null) return raw.application;
+      return raw;
+    }
+
+    function importApplications(apps) {
+      let added = 0;
+      for (const raw of apps) {
+        const application = normalizeApplication(raw);
+        if (!application || typeof application !== "object") continue;
+        if (!application.team && !application.knockouts) continue;
+        const id = makeId(application);
+        const record = {
+          id,
+          createdAt: application.meta?.capturedAt || new Date().toISOString(),
+          importedAt: new Date().toISOString(),
+          application,
+          overrides: {},
+          adminNotes: "",
+        };
+        store.submissions[id] = record;
+        added += 1;
       }
-      if (!res.ok) throw new Error(res.statusText);
-      return res;
+      saveStore();
+      return added;
     }
 
     function showApp() {
@@ -230,6 +471,9 @@
       if (msg) {
         err.textContent = msg;
         err.classList.remove("hidden");
+      } else {
+        err.classList.add("hidden");
+        err.textContent = "";
       }
     }
 
@@ -242,17 +486,26 @@
       return `<div class="flags">${bits.join("")}</div>`;
     }
 
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
     function renderList() {
+      const submissions = listRecords();
       const list = document.getElementById("list");
       document.getElementById("count-label").textContent = `${submissions.length} submission(s)`;
       if (!submissions.length) {
-        list.innerHTML = `<p class="empty" style="padding:1rem;">No submissions yet</p>`;
+        list.innerHTML = `<p class="empty" style="padding:1rem;">No submissions yet — use Import JSON</p>`;
         return;
       }
       list.innerHTML = submissions
         .map(
           (s) => `
-        <button type="button" class="list-item ${s.id === selectedId ? "active" : ""}" data-id="${s.id}">
+        <button type="button" class="list-item ${s.id === selectedId ? "active" : ""}" data-id="${escapeHtml(s.id)}">
           <strong>${escapeHtml(s.orgName || "—")}</strong>
           <small>${escapeHtml(s.contactName || "")} · ${escapeHtml(s.country || "")} · <b style="color:var(--amber)">${s.total}/25</b></small>
           ${flagHtml(s)}
@@ -264,24 +517,19 @@
       });
     }
 
-    function escapeHtml(s) {
-      return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-
-    async function selectSubmission(id) {
+    function selectSubmission(id) {
       selectedId = id;
+      currentRecord = store.submissions[id];
       renderList();
-      const data = await api(`/api/submissions/${encodeURIComponent(id)}`);
-      currentRecord = data;
-      renderDetail(data);
+      if (!currentRecord) {
+        document.getElementById("detail").innerHTML = `<p class="empty">Missing record</p>`;
+        return;
+      }
+      renderDetail(currentRecord);
     }
 
     function renderDetail(data) {
-      const eff = data.effective;
+      const eff = effectiveOf(data);
       const app = data.application || {};
       const team = app.team || {};
       const ko = eff.knockouts || {};
@@ -313,6 +561,7 @@
         </p>
         <div class="ko-row">
           <span class="flag ${ko.unified?.pass ? "ok" : ""}">Unified: ${escapeHtml(ko.unified?.value || "?")}</span>
+          <span class="flag ${ko.abuDhabiTravel?.pass ? "ok" : ""}">Abu Dhabi: ${escapeHtml(ko.abuDhabiTravel?.value || "?")}</span>
           <span class="flag ${ko.adnoc?.pass ? "ok" : ""}">ADNOC: ${escapeHtml(ko.adnoc?.value || "?")}</span>
           <span class="flag ${ko.icv?.hardFail ? "" : "ok"}">ICV: ${escapeHtml(ko.icv?.value || "?")}</span>
         </div>
@@ -325,6 +574,7 @@
         <div class="toolbar" style="margin-top:1rem;">
           <button type="button" class="btn" id="btn-save">Save overrides</button>
           <button type="button" class="btn btn-ghost" id="btn-rescore">Re-run auto-score</button>
+          <button type="button" class="btn btn-ghost" id="btn-delete">Remove</button>
         </div>
         <details style="margin-top:1.25rem;">
           <summary style="cursor:pointer;color:var(--cyan);font-family:var(--font-display);font-size:0.8rem;letter-spacing:0.06em;">RAW APPLICATION JSON</summary>
@@ -334,9 +584,21 @@
 
       detail.querySelector("#btn-save").addEventListener("click", saveOverrides);
       detail.querySelector("#btn-rescore").addEventListener("click", rescore);
+      detail.querySelector("#btn-delete").addEventListener("click", () => {
+        if (!confirm("Remove this submission from the local scoring store?")) return;
+        delete store.submissions[selectedId];
+        saveStore();
+        selectedId = null;
+        currentRecord = null;
+        document.getElementById("detail").innerHTML = `<p class="empty">Select a submission</p>`;
+        renderList();
+        toast("Removed");
+      });
     }
 
-    async function saveOverrides() {
+    function saveOverrides() {
+      const record = store.submissions[selectedId];
+      if (!record) return;
       const overrides = {};
       document.querySelectorAll("[data-score]").forEach((el) => {
         const key = el.dataset.score;
@@ -346,81 +608,195 @@
           note: noteEl ? noteEl.value : "",
         };
       });
-      const adminNotes = document.getElementById("admin-notes")?.value || "";
-      await api(`/api/submissions/${encodeURIComponent(selectedId)}`, {
-        method: "PATCH",
-        body: JSON.stringify({ overrides, adminNotes }),
-      });
-      await loadList();
-      await selectSubmission(selectedId);
+      record.overrides = overrides;
+      record.adminNotes = document.getElementById("admin-notes")?.value || "";
+      saveStore();
+      toast("Saved");
+      selectSubmission(selectedId);
     }
 
-    async function rescore() {
-      await api(`/api/submissions/${encodeURIComponent(selectedId)}`, {
-        method: "PATCH",
-        body: JSON.stringify({ rescore: true }),
-      });
-      await loadList();
-      await selectSubmission(selectedId);
+    function rescore() {
+      const record = store.submissions[selectedId];
+      if (!record) return;
+      record.overrides = {};
+      saveStore();
+      toast("Re-scored");
+      selectSubmission(selectedId);
     }
 
-    async function loadList() {
-      const data = await api("/api/submissions");
-      submissions = data.submissions || [];
+    function loadList() {
       renderList();
     }
 
-    async function downloadExport(format) {
-      const res = await fetch(`/api/export?format=${format}`, {
-        headers: authHeaders(),
-      });
-      if (!res.ok) throw new Error("export failed");
-      const blob = await res.blob();
+    function downloadBlob(blob, filename) {
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `mbzirc-cfp-scored.${format === "json" ? "json" : "csv"}`;
+      a.download = filename;
       a.click();
       URL.revokeObjectURL(a.href);
     }
 
-    document.getElementById("login-form").addEventListener("submit", async (e) => {
+    function downloadExport(format) {
+      const records = Object.values(store.submissions).map((r) => ({
+        ...r,
+        effective: effectiveOf(r),
+      }));
+      if (format === "json") {
+        downloadBlob(
+          new Blob([JSON.stringify(records, null, 2)], { type: "application/json" }),
+          "mbzirc-cfp-scored.json"
+        );
+        return;
+      }
+      const rows = [
+        [
+          "id",
+          "org",
+          "country",
+          "contact",
+          "email",
+          "total",
+          "techMaturity",
+          "applicationSuitability",
+          "humanInteraction",
+          "adnocWillingness",
+          "uaeIcvWillingness",
+          "unified",
+          "abuDhabi",
+          "adnoc",
+          "icv",
+          "adminNotes",
+        ],
+      ];
+      for (const r of records) {
+        const team = r.application?.team || {};
+        const eff = r.effective;
+        rows.push([
+          r.id,
+          team.orgName || "",
+          team.orgCountry || "",
+          team.contact?.name || "",
+          team.contact?.email || "",
+          eff.total,
+          eff.dimensions.techMaturity.score,
+          eff.dimensions.applicationSuitability.score,
+          eff.dimensions.humanInteraction.score,
+          eff.dimensions.adnocWillingness.score,
+          eff.dimensions.uaeIcvWillingness.score,
+          eff.knockouts.unified?.value || "",
+          eff.knockouts.abuDhabiTravel?.value || "",
+          eff.knockouts.adnoc?.value || "",
+          eff.knockouts.icv?.value || "",
+          (r.adminNotes || "").replace(/\n/g, " "),
+        ]);
+      }
+      const csv = rows
+        .map((row) =>
+          row
+            .map((cell) => {
+              const s = String(cell ?? "");
+              return /["\n,]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+            })
+            .join(",")
+        )
+        .join("\n");
+      downloadBlob(new Blob([csv], { type: "text/csv" }), "mbzirc-cfp-scored.csv");
+    }
+
+    function unlock() {
+      sessionStorage.setItem(SESSION_KEY, password);
+      showApp();
+      loadList();
+    }
+
+    document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
       password = document.getElementById("password").value;
-      try {
-        await api("/api/login", {
-          method: "POST",
-          body: JSON.stringify({ password }),
-        });
-        sessionStorage.setItem("mbzirc_admin_pw", password);
-        showApp();
-        await loadList();
-      } catch (err) {
+      if (password !== ADMIN_PASSWORD) {
         password = "";
-        sessionStorage.removeItem("mbzirc_admin_pw");
-        showLogin("Wrong password or API unreachable.");
+        sessionStorage.removeItem(SESSION_KEY);
+        showLogin("Wrong password.");
+        return;
       }
+      unlock();
     });
 
-    document.getElementById("btn-refresh").addEventListener("click", () => loadList());
+    document.getElementById("import-files").addEventListener("change", async (e) => {
+      const files = [...(e.target.files || [])];
+      if (!files.length) return;
+      const apps = [];
+      for (const file of files) {
+        try {
+          const text = await file.text();
+          const json = JSON.parse(text);
+          if (Array.isArray(json)) apps.push(...json);
+          else if (json.submissions && typeof json.submissions === "object") {
+            // exported scoring pack
+            for (const rec of Object.values(json.submissions)) {
+              if (rec.application) {
+                store.submissions[rec.id || makeId(rec.application)] = {
+                  id: rec.id || makeId(rec.application),
+                  createdAt: rec.createdAt || new Date().toISOString(),
+                  importedAt: new Date().toISOString(),
+                  application: rec.application,
+                  overrides: rec.overrides || {},
+                  adminNotes: rec.adminNotes || "",
+                };
+              }
+            }
+            saveStore();
+          } else if (Array.isArray(json) === false && json.id && json.application) {
+            store.submissions[json.id] = {
+              id: json.id,
+              createdAt: json.createdAt || new Date().toISOString(),
+              importedAt: new Date().toISOString(),
+              application: json.application,
+              overrides: json.overrides || {},
+              adminNotes: json.adminNotes || "",
+            };
+            saveStore();
+          } else {
+            apps.push(json);
+          }
+        } catch (err) {
+          alert(`Could not read ${file.name}: ${err.message}`);
+        }
+      }
+      const n = importApplications(apps);
+      e.target.value = "";
+      loadList();
+      toast(`Imported ${n} application(s)`);
+    });
+
+    document.getElementById("btn-refresh").addEventListener("click", () => {
+      store = loadStore();
+      loadList();
+      if (selectedId) selectSubmission(selectedId);
+      toast("Refreshed");
+    });
     document.getElementById("btn-csv").addEventListener("click", () => downloadExport("csv"));
     document.getElementById("btn-json").addEventListener("click", () => downloadExport("json"));
+    document.getElementById("btn-clear").addEventListener("click", () => {
+      if (!confirm("Clear all locally stored submissions and scores on this browser?")) return;
+      store = { submissions: {} };
+      saveStore();
+      selectedId = null;
+      currentRecord = null;
+      document.getElementById("detail").innerHTML = `<p class="empty">Import a submission JSON, then select it</p>`;
+      loadList();
+      toast("Cleared");
+    });
     document.getElementById("btn-logout").addEventListener("click", () => {
       password = "";
-      sessionStorage.removeItem("mbzirc_admin_pw");
+      sessionStorage.removeItem(SESSION_KEY);
       showLogin("");
     });
 
-    (async () => {
-      if (!password) return;
-      try {
-        await api("/api/submissions");
-        showApp();
-        await loadList();
-      } catch {
-        password = "";
-        sessionStorage.removeItem("mbzirc_admin_pw");
-      }
-    })();
+    if (password === ADMIN_PASSWORD) unlock();
+    else if (password) {
+      password = "";
+      sessionStorage.removeItem(SESSION_KEY);
+    }
   </script>
 </body>
 </html>
