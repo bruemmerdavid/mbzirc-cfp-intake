@@ -455,18 +455,67 @@
 
     .maturity-row {
       display: grid;
-      grid-template-columns: minmax(8rem, 1fr) 2fr;
-      gap: 0.65rem 1rem;
+      grid-template-columns: minmax(7rem, 1fr) 1.2fr 1.4fr;
+      gap: 0.65rem 0.85rem;
       align-items: center;
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
       .maturity-row { grid-template-columns: 1fr; }
     }
 
-    .maturity-row span {
+    .maturity-row > span:first-child {
       font-size: 0.85rem;
       color: var(--sand);
+    }
+
+    .subtask-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .subtask-table th,
+    .subtask-table td {
+      border: 1px solid var(--line);
+      padding: 0.55rem 0.6rem;
+      vertical-align: top;
+      text-align: left;
+    }
+    .subtask-table th {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--sand);
+      background: rgba(19, 40, 54, 0.55);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .subtask-table select,
+    .subtask-table textarea {
+      margin: 0;
+      font-size: 0.8rem;
+    }
+    .video-block {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem 1.05rem 0.35rem;
+      margin-bottom: 1.15rem;
+      background: rgba(19, 40, 54, 0.35);
+    }
+    .video-block h4 {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      margin: 0 0 0.85rem;
+      color: var(--cyan);
+      letter-spacing: 0.03em;
+    }
+    .field .desc {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin: -0.15rem 0 0.55rem;
+      line-height: 1.45;
     }
 
     /* Pathways */
@@ -662,41 +711,57 @@
           <p class="section-hint">Concrete answers first.</p>
 
           <div class="knockout">
-            <h3>Can you field a working unified system by the Semi-Finals?</h3>
+            <h3>Can you field a working unified system at the Semi-Finals in Abu Dhabi?</h3>
+            <p class="section-hint" style="margin-bottom:0.85rem;">Semi-Finals will be held in <strong>Abu Dhabi</strong>. Teams must indicate both the <strong>capability</strong> and the <strong>willingness</strong> to travel there and demonstrate a unified map / navigate / inspect / operate / report / maintain stack.</p>
             <div class="field">
+              <span class="label">Capability to field a unified system by Semi-Finals <span class="req">*</span></span>
               <div class="choice-row">
-                <label><input type="radio" name="ko_unified" value="yes" required /> Yes — we will demonstrate a unified map / navigate / inspect / operate / report stack</label>
+                <label><input type="radio" name="ko_unified" value="yes" required /> Yes — we can demonstrate a unified working system</label>
                 <label><input type="radio" name="ko_unified" value="no" /> No — concept only or single-capability demo</label>
               </div>
             </div>
-            <p class="section-hint" style="margin-bottom:1rem;">What shows you can reach Semi-Finals at ADNOC ATA? Answer each item. Write <em>None</em> where that is accurate.</p>
+            <div class="field">
+              <span class="label">Willingness to travel to Abu Dhabi and demonstrate at Semi-Finals <span class="req">*</span></span>
+              <div class="choice-row">
+                <label><input type="radio" name="ko_abu_dhabi_travel" value="yes" required /> Yes — we are willing and able to fly over and demonstrate</label>
+                <label><input type="radio" name="ko_abu_dhabi_travel" value="no" /> No — we cannot commit to travelling to Abu Dhabi</label>
+              </div>
+            </div>
+            <p class="section-hint" style="margin-bottom:1rem;">What shows you can reach Semi-Finals at ADNOC ATA in Abu Dhabi? Answer each item. Write <em>None</em> where that is accurate.</p>
             <div class="field">
               <label for="ko_current_hardware">Current hardware <span class="req">*</span></label>
-              <textarea id="ko_current_hardware" name="ko_current_hardware" required placeholder="Platforms, sensors, arms you have today — or None"></textarea>
+              <span class="desc">Platforms, sensors, arms you have today — or None</span>
+              <textarea id="ko_current_hardware" name="ko_current_hardware" required></textarea>
             </div>
             <div class="field">
               <label for="ko_current_software">Current software <span class="req">*</span></label>
-              <textarea id="ko_current_software" name="ko_current_software" required placeholder="Autonomy, mapping, inspection, operator tools — or None"></textarea>
+              <span class="desc">Autonomy, mapping, inspection, operator tools — or None</span>
+              <textarea id="ko_current_software" name="ko_current_software" required></textarea>
             </div>
             <div class="field">
               <label for="ko_prior_field_deployments">Prior field deployments <span class="req">*</span></label>
-              <textarea id="ko_prior_field_deployments" name="ko_prior_field_deployments" required placeholder="Sites, operators, outcomes — or None"></textarea>
+              <span class="desc">Sites, operators, outcomes — or None</span>
+              <textarea id="ko_prior_field_deployments" name="ko_prior_field_deployments" required></textarea>
             </div>
             <div class="field">
               <label for="ko_ip_patents">IP and patents <span class="req">*</span></label>
-              <textarea id="ko_ip_patents" name="ko_ip_patents" required placeholder="Patents, filings, licenses, trade secrets relevant to the system — or None"></textarea>
+              <span class="desc">Patents, filings, licenses, trade secrets relevant to the system — or None</span>
+              <textarea id="ko_ip_patents" name="ko_ip_patents" required></textarea>
             </div>
             <div class="field">
               <label for="ko_team">Team <span class="req">*</span></label>
-              <textarea id="ko_team" name="ko_team" required placeholder="Size, key skills, who is committed through Semi-Finals"></textarea>
+              <span class="desc">Size, key skills, who is committed through Semi-Finals</span>
+              <textarea id="ko_team" name="ko_team" required></textarea>
             </div>
             <div class="field">
               <label for="ko_internal_resources">Internal resources <span class="req">*</span></label>
-              <textarea id="ko_internal_resources" name="ko_internal_resources" required placeholder="Facilities, compute, lab access, partner support — or None"></textarea>
+              <span class="desc">Facilities, compute, lab access, partner support — or None</span>
+              <textarea id="ko_internal_resources" name="ko_internal_resources" required></textarea>
             </div>
             <div class="field">
               <label for="ko_investment">Investment <span class="req">*</span></label>
-              <textarea id="ko_investment" name="ko_investment" required placeholder="Capital raised or committed for this challenge path — or None"></textarea>
+              <span class="desc">Capital raised or committed for this challenge path — or None</span>
+              <textarea id="ko_investment" name="ko_investment" required></textarea>
             </div>
           </div>
 
@@ -738,7 +803,6 @@
               <label class="chip"><input type="radio" name="org_type" value="team" /><span>Team</span></label>
               <label class="chip"><input type="radio" name="org_type" value="school" /><span>School</span></label>
               <label class="chip"><input type="radio" name="org_type" value="individual" /><span>Individual</span></label>
-              <label class="chip"><input type="radio" name="org_type" value="sponsor" /><span>Sponsor</span></label>
             </div>
           </div>
 
@@ -796,9 +860,8 @@
                 <option value="university">University research</option>
                 <option value="mixed">Mixed professional + academic</option>
                 <option value="student">Student-led university</option>
-                <option value="sponsor_na">Sponsor / not competing</option>
               </select>
-              <span class="hint">How this application is organized — industry team, university lab, mixed, student-led, or sponsor.</span>
+              <span class="hint">How this application is organized — industry team, university lab, mixed, or student-led. Sponsors should not use this team application form; a separate contact route will be provided.</span>
             </div>
           </div>
 
@@ -810,8 +873,15 @@
           </div>
 
           <div class="field">
+            <label for="advisors">Advisors, mentors &amp; guiding figures <span class="req">*</span></label>
+            <span class="desc">List the team’s top advisors, mentors, chief researchers, academics, or other guiding figures who support this effort (names, affiliations, and role).</span>
+            <textarea id="advisors" name="advisors" required></textarea>
+          </div>
+
+          <div class="field">
             <label for="track_record">Track record <span class="req">*</span></label>
-            <textarea id="track_record" name="track_record" required placeholder="Past challenges, field deployments, industrial customers, relevant publications or products…"></textarea>
+            <span class="desc">Past challenges, field deployments, industrial customers, relevant publications or products.</span>
+            <textarea id="track_record" name="track_record" required></textarea>
           </div>
 
           <div class="field">
@@ -827,7 +897,8 @@
           </div>
           <div class="field">
             <label for="adnoc_links_notes">ADNOC links — detail</label>
-            <textarea id="adnoc_links_notes" name="adnoc_links_notes" placeholder="Disclose any existing ADNOC relationships (deck asks for disclosure)."></textarea>
+            <span class="desc">Disclose any existing ADNOC relationships.</span>
+            <textarea id="adnoc_links_notes" name="adnoc_links_notes"></textarea>
           </div>
         </section>
 
@@ -840,37 +911,44 @@
 
           <div class="field">
             <label for="platforms">Platforms <span class="req">*</span></label>
-            <textarea id="platforms" name="platforms" required placeholder="UGV, UAV, stationary, hybrid… form factors and count"></textarea>
+            <span class="desc">UGV, UAV, stationary, hybrid — form factors and count.</span>
+            <textarea id="platforms" name="platforms" required></textarea>
           </div>
             <div class="field">
               <label for="navigation_sensors">Navigation sensors <span class="req">*</span></label>
-              <textarea id="navigation_sensors" name="navigation_sensors" required placeholder="Localization / mapping / driving — e.g. LiDAR, nav cameras, IMU, GPS/UWB"></textarea>
+              <span class="desc">Localization / mapping / driving — e.g. LiDAR, nav cameras, IMU, GPS/UWB.</span>
+              <textarea id="navigation_sensors" name="navigation_sensors" required></textarea>
             </div>
             <div class="field">
               <label for="application_sensors">Application sensors <span class="req">*</span></label>
-              <textarea id="application_sensors" name="application_sensors" required placeholder="Mission / task sensors for the ADNOC use case — e.g. gas, thermal, NDT, inspection cameras"></textarea>
+              <span class="desc">Mission / task sensors for the ADNOC use case — e.g. gas, thermal, NDT, inspection cameras.</span>
+              <textarea id="application_sensors" name="application_sensors" required></textarea>
             </div>
             <div class="field">
               <label for="arm">Manipulation hardware (arm) <span class="req">*</span></label>
-              <textarea id="arm" name="arm" required placeholder="Hardware: arm type, DOF, end-effectors — or N/A with rationale"></textarea>
+              <span class="desc">Hardware: arm type, DOF, end-effectors — or N/A with rationale.</span>
+              <textarea id="arm" name="arm" required></textarea>
             </div>
             <div class="field">
               <label for="mobile_manipulation_software">Mobile manipulation software <span class="req">*</span></label>
-              <textarea id="mobile_manipulation_software" name="mobile_manipulation_software" required placeholder="Stack or plan for planning, control, grasping, whole-body — or N/A with rationale"></textarea>
+              <span class="desc">Stack or plan for planning, control, grasping, whole-body — or N/A with rationale.</span>
+              <textarea id="mobile_manipulation_software" name="mobile_manipulation_software" required></textarea>
             </div>
             <div class="field">
-              <label for="dual_arm">Dual-arm solutions <span class="req">*</span></label>
+              <label for="dual_arm">Mobile manipulator status <span class="req">*</span></label>
+              <span class="desc">Describe your mobile manipulator capability (platform + arm). Dual-arm is optional, not preferred.</span>
               <select id="dual_arm" name="dual_arm" required>
                 <option value="">Select…</option>
-                <option value="dual_now">Dual-arm now — hardware and software in place</option>
-                <option value="dual_planned">Dual-arm planned for Semi-Finals / Finals</option>
-                <option value="single_only">Single-arm only — with rationale below</option>
-                <option value="none">No arm / not applicable — with rationale below</option>
+                <option value="mobile_manip_now">Mobile manipulator now — hardware and software in place</option>
+                <option value="mobile_manip_planned">Mobile manipulator planned for Semi-Finals / Finals</option>
+                <option value="arm_only">Arm only (not mobile) — with rationale below</option>
+                <option value="none">No manipulator / not applicable — with rationale below</option>
               </select>
             </div>
             <div class="field">
-              <label for="dual_arm_detail">Dual-arm approach / rationale <span class="req">*</span></label>
-              <textarea id="dual_arm_detail" name="dual_arm_detail" required placeholder="Describe the dual-arm approach, or why single-arm / none is sufficient for the ADNOC tasks"></textarea>
+              <label for="dual_arm_detail">Mobile manipulator approach / rationale <span class="req">*</span></label>
+              <span class="desc">Describe the mobile manipulator approach, or why arm-only / none is sufficient for the ADNOC tasks.</span>
+              <textarea id="dual_arm_detail" name="dual_arm_detail" required></textarea>
             </div>
             <div class="field">
               <span class="label">Operator / control approach</span>
@@ -888,19 +966,23 @@
             </div>
             <div class="field">
               <label for="human_system_share_control">How the human and system share control <span class="req">*</span></label>
-              <textarea id="human_system_share_control" name="human_system_share_control" required placeholder="Interfaces, autonomy boundaries, fail-safes; for mixed-initiative describe collaboration (oversee / decide / confirm). For teleop or autonomy, still explain rationale and where the other modes appear as fallback."></textarea>
+              <span class="desc">Interfaces, autonomy boundaries, fail-safes; for mixed-initiative describe collaboration (oversee / decide / confirm). For teleop or autonomy, still explain rationale and where the other modes appear as fallback.</span>
+              <textarea id="human_system_share_control" name="human_system_share_control" required></textarea>
             </div>
             <div class="field">
               <label for="human_intervene_vs_ai">When does the human intervene vs the AI act?</label>
-              <textarea id="human_intervene_vs_ai" name="human_intervene_vs_ai" placeholder="Optional — triggers for handoff, escalation, or AI-only stretches"></textarea>
+              <span class="desc">Optional — triggers for handoff, escalation, or AI-only stretches.</span>
+              <textarea id="human_intervene_vs_ai" name="human_intervene_vs_ai"></textarea>
             </div>
             <div class="field">
               <label for="unified_description">Unified system description <span class="req">*</span></label>
-            <textarea id="unified_description" name="unified_description" required placeholder="How map, navigate, inspect, operate, and report work as one system"></textarea>
+            <span class="desc">How map, navigate, inspect, operate, maintain, and report work as one system.</span>
+            <textarea id="unified_description" name="unified_description" required></textarea>
           </div>
           <div class="field">
             <label for="goals">Goals for joining <span class="req">*</span></label>
-            <textarea id="goals" name="goals" required placeholder="What you hope to achieve — map to ADNOC objectives: Operations, Humans-in-loop, Unified system, Deployable, Commercialization &amp; ICV"></textarea>
+            <span class="desc">What you hope to achieve — map to ADNOC objectives: Operations, Humans-in-loop, Unified system, Deployable, Commercialization &amp; ICV.</span>
+            <textarea id="goals" name="goals" required></textarea>
             <span class="hint">Favour the five ADNOC objectives from the kick-off deck.</span>
           </div>
         </section>
@@ -910,79 +992,375 @@
           <span class="filter-tag">Discriminators</span>
           <p class="section-label">Section 3</p>
           <h2>Evidence</h2>
-          <p class="section-hint">Short video of current hardware on a related task, plus maturity of each core capability today.</p>
+          <p class="section-hint">Videos of current hardware on a related task (max 5 minutes each), plus maturity and control mode for each core capability, and specific sub-task evidence.</p>
 
-          <div class="field">
-            <label for="video_url">Primary video URL (current hardware, related task) <span class="req">*</span></label>
-            <input type="url" id="video_url" name="video_url" required placeholder="https://…" />
+          <div class="video-block">
+            <h4>Primary video (current hardware, related task)</h4>
+            <div class="field">
+              <label for="video_url">Video URL <span class="req">*</span></label>
+              <span class="desc">Link to a clip of at most 5 minutes.</span>
+              <input type="url" id="video_url" name="video_url" required placeholder="https://…" />
+            </div>
+            <div class="field">
+              <label for="video_url_description">Video description <span class="req">*</span></label>
+              <span class="desc">What this video shows: task, environment, date recorded.</span>
+              <textarea id="video_url_description" name="video_url_description" required></textarea>
+            </div>
+            <div class="field">
+              <span class="label">Video type <span class="req">*</span></span>
+              <span class="desc">Indicate whether this is footage of a real system or a concept video (AI-generated or other).</span>
+              <div class="choice-row">
+                <label><input type="radio" name="video_url_type" value="real" required /> Real video (physical system)</label>
+                <label><input type="radio" name="video_url_type" value="concept" /> Concept video (AI or other)</label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="video_url_human_intervention">Human intervention in this video <span class="req">*</span></label>
+              <span class="desc">Explain the level of human intervention shown (teleop, supervised autonomy, fully autonomous stretches, edits, etc.).</span>
+              <textarea id="video_url_human_intervention" name="video_url_human_intervention" required></textarea>
+            </div>
+            <div class="field">
+              <label>
+                <input type="checkbox" name="video_url_under_5min" value="yes" required />
+                Confirm this video is 5 minutes or shorter <span class="req">*</span>
+              </label>
+            </div>
           </div>
-          <div class="field">
-            <label for="video_url_backup_1">Additional video URL (optional)</label>
-            <input type="url" id="video_url_backup_1" name="video_url_backup_1" placeholder="https://…" />
+          <div class="video-block">
+            <h4>Additional video 1 (optional)</h4>
+            <div class="field">
+              <label for="video_url_backup_1">Video URL</label>
+              <span class="desc">Link to a clip of at most 5 minutes.</span>
+              <input type="url" id="video_url_backup_1" name="video_url_backup_1" placeholder="https://…" />
+            </div>
+            <div class="field">
+              <label for="video_url_backup_1_description">Video description</label>
+              <span class="desc">What this video shows: task, environment, date recorded.</span>
+              <textarea id="video_url_backup_1_description" name="video_url_backup_1_description"></textarea>
+            </div>
+            <div class="field">
+              <span class="label">Video type</span>
+              <span class="desc">Indicate whether this is footage of a real system or a concept video (AI-generated or other).</span>
+              <div class="choice-row">
+                <label><input type="radio" name="video_url_backup_1_type" value="real" /> Real video (physical system)</label>
+                <label><input type="radio" name="video_url_backup_1_type" value="concept" /> Concept video (AI or other)</label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="video_url_backup_1_human_intervention">Human intervention in this video</label>
+              <span class="desc">Explain the level of human intervention shown (teleop, supervised autonomy, fully autonomous stretches, edits, etc.).</span>
+              <textarea id="video_url_backup_1_human_intervention" name="video_url_backup_1_human_intervention"></textarea>
+            </div>
+            <div class="field">
+              <label>
+                <input type="checkbox" name="video_url_backup_1_under_5min" value="yes" />
+                Confirm this video is 5 minutes or shorter
+              </label>
+            </div>
           </div>
-          <div class="field">
-            <label for="video_url_backup_2">Additional video URL (optional)</label>
-            <input type="url" id="video_url_backup_2" name="video_url_backup_2" placeholder="https://…" />
-          </div>
-          <div class="field">
-            <label for="video_notes">What the video(s) show</label>
-            <textarea id="video_notes" name="video_notes" placeholder="Task, environment, autonomy level, date recorded — note which URL if more than one"></textarea>
+          <div class="video-block">
+            <h4>Additional video 2 (optional)</h4>
+            <div class="field">
+              <label for="video_url_backup_2">Video URL</label>
+              <span class="desc">Link to a clip of at most 5 minutes.</span>
+              <input type="url" id="video_url_backup_2" name="video_url_backup_2" placeholder="https://…" />
+            </div>
+            <div class="field">
+              <label for="video_url_backup_2_description">Video description</label>
+              <span class="desc">What this video shows: task, environment, date recorded.</span>
+              <textarea id="video_url_backup_2_description" name="video_url_backup_2_description"></textarea>
+            </div>
+            <div class="field">
+              <span class="label">Video type</span>
+              <span class="desc">Indicate whether this is footage of a real system or a concept video (AI-generated or other).</span>
+              <div class="choice-row">
+                <label><input type="radio" name="video_url_backup_2_type" value="real" /> Real video (physical system)</label>
+                <label><input type="radio" name="video_url_backup_2_type" value="concept" /> Concept video (AI or other)</label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="video_url_backup_2_human_intervention">Human intervention in this video</label>
+              <span class="desc">Explain the level of human intervention shown (teleop, supervised autonomy, fully autonomous stretches, edits, etc.).</span>
+              <textarea id="video_url_backup_2_human_intervention" name="video_url_backup_2_human_intervention"></textarea>
+            </div>
+            <div class="field">
+              <label>
+                <input type="checkbox" name="video_url_backup_2_under_5min" value="yes" />
+                Confirm this video is 5 minutes or shorter
+              </label>
+            </div>
           </div>
 
           <div class="field">
             <span class="label">Capability maturity today <span class="req">*</span></span>
-            <span class="hint" style="display:block;margin-bottom:0.75rem;">1 = concept · 2 = lab · 3 = field trial · 4 = production-ready</span>
-            <div class="maturity-list">
+            <span class="desc">Rate each capability (1 = concept · 2 = lab · 3 = field trial · 4 = production-ready) and the primary control mode used for that capability. Modes may differ across capabilities (e.g. autonomous mapping with teleoperated operation).</span>
+            <div class="maturity-list" style="margin-top:0.75rem;">
+              <div class="maturity-row" style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;">
+                <span>Capability</span>
+                <span>Maturity</span>
+                <span>Control mode</span>
+              </div>
               <div class="maturity-row">
                 <span>Map</span>
-                <select name="maturity_map" required>
+                <select name="maturity_map" required aria-label="Map maturity">
                   <option value="">Select…</option>
                   <option value="1">1 — Concept</option>
                   <option value="2">2 — Lab</option>
                   <option value="3">3 — Field trial</option>
                   <option value="4">4 — Production-ready</option>
+                </select>
+                <select name="maturity_map_mode" required aria-label="Map control mode">
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
                 </select>
               </div>
               <div class="maturity-row">
                 <span>Navigate</span>
-                <select name="maturity_navigate" required>
+                <select name="maturity_navigate" required aria-label="Navigate maturity">
                   <option value="">Select…</option>
                   <option value="1">1 — Concept</option>
                   <option value="2">2 — Lab</option>
                   <option value="3">3 — Field trial</option>
                   <option value="4">4 — Production-ready</option>
+                </select>
+                <select name="maturity_navigate_mode" required aria-label="Navigate control mode">
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
                 </select>
               </div>
               <div class="maturity-row">
                 <span>Inspect</span>
-                <select name="maturity_inspect" required>
+                <select name="maturity_inspect" required aria-label="Inspect maturity">
                   <option value="">Select…</option>
                   <option value="1">1 — Concept</option>
                   <option value="2">2 — Lab</option>
                   <option value="3">3 — Field trial</option>
                   <option value="4">4 — Production-ready</option>
+                </select>
+                <select name="maturity_inspect_mode" required aria-label="Inspect control mode">
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
                 </select>
               </div>
               <div class="maturity-row">
                 <span>Operate</span>
-                <select name="maturity_operate" required>
+                <select name="maturity_operate" required aria-label="Operate maturity">
                   <option value="">Select…</option>
                   <option value="1">1 — Concept</option>
                   <option value="2">2 — Lab</option>
                   <option value="3">3 — Field trial</option>
                   <option value="4">4 — Production-ready</option>
+                </select>
+                <select name="maturity_operate_mode" required aria-label="Operate control mode">
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </div>
+              <div class="maturity-row">
+                <span>Maintain</span>
+                <select name="maturity_maintain" required aria-label="Maintain maturity">
+                  <option value="">Select…</option>
+                  <option value="1">1 — Concept</option>
+                  <option value="2">2 — Lab</option>
+                  <option value="3">3 — Field trial</option>
+                  <option value="4">4 — Production-ready</option>
+                </select>
+                <select name="maturity_maintain_mode" required aria-label="Maintain control mode">
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
                 </select>
               </div>
               <div class="maturity-row">
                 <span>Report</span>
-                <select name="maturity_report" required>
+                <select name="maturity_report" required aria-label="Report maturity">
                   <option value="">Select…</option>
                   <option value="1">1 — Concept</option>
                   <option value="2">2 — Lab</option>
                   <option value="3">3 — Field trial</option>
                   <option value="4">4 — Production-ready</option>
                 </select>
+                <select name="maturity_report_mode" required aria-label="Report control mode">
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
               </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label">Capability sub-tasks <span class="req">*</span></span>
+            <span class="desc">For each industrial sub-task, give evidence level (0–3) and the control mode used. Be concrete — two teams saying “Operate = 3” can mean very different things.</span>
+            <div style="overflow-x:auto;margin-top:0.75rem;">
+              <table class="subtask-table">
+                <thead>
+                  <tr>
+                    <th>Sub-task</th>
+                    <th>Evidence (0–3)</th>
+                    <th>Control mode</th>
+                  </tr>
+                </thead>
+                <tbody>
+            <tr>
+              <td>Read an analogue gauge</td>
+              <td>
+                <select name="subtask_analogue_gauge_level" required>
+                  <option value="">Evidence…</option>
+                  <option value="0">0 — Not demonstrated</option>
+                  <option value="1">1 — Lab / simulated</option>
+                  <option value="2">2 — Field / related task</option>
+                  <option value="3">3 — Industrial / production</option>
+                </select>
+              </td>
+              <td>
+                <select name="subtask_analogue_gauge_mode" required>
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </td>
+            </tr>            <tr>
+              <td>Turn a hand valve (quarter-turn / multi-turn)</td>
+              <td>
+                <select name="subtask_hand_valve_level" required>
+                  <option value="">Evidence…</option>
+                  <option value="0">0 — Not demonstrated</option>
+                  <option value="1">1 — Lab / simulated</option>
+                  <option value="2">2 — Field / related task</option>
+                  <option value="3">3 — Industrial / production</option>
+                </select>
+              </td>
+              <td>
+                <select name="subtask_hand_valve_mode" required>
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </td>
+            </tr>            <tr>
+              <td>Push a button / toggle a switch</td>
+              <td>
+                <select name="subtask_button_switch_level" required>
+                  <option value="">Evidence…</option>
+                  <option value="0">0 — Not demonstrated</option>
+                  <option value="1">1 — Lab / simulated</option>
+                  <option value="2">2 — Field / related task</option>
+                  <option value="3">3 — Industrial / production</option>
+                </select>
+              </td>
+              <td>
+                <select name="subtask_button_switch_mode" required>
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </td>
+            </tr>            <tr>
+              <td>Detect a gas leak / thermal anomaly</td>
+              <td>
+                <select name="subtask_gas_thermal_level" required>
+                  <option value="">Evidence…</option>
+                  <option value="0">0 — Not demonstrated</option>
+                  <option value="1">1 — Lab / simulated</option>
+                  <option value="2">2 — Field / related task</option>
+                  <option value="3">3 — Industrial / production</option>
+                </select>
+              </td>
+              <td>
+                <select name="subtask_gas_thermal_mode" required>
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </td>
+            </tr>            <tr>
+              <td>Climb stairs, open a door, cross obstacles</td>
+              <td>
+                <select name="subtask_mobility_obstacles_level" required>
+                  <option value="">Evidence…</option>
+                  <option value="0">0 — Not demonstrated</option>
+                  <option value="1">1 — Lab / simulated</option>
+                  <option value="2">2 — Field / related task</option>
+                  <option value="3">3 — Industrial / production</option>
+                </select>
+              </td>
+              <td>
+                <select name="subtask_mobility_obstacles_mode" required>
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </td>
+            </tr>            <tr>
+              <td>Produce an inspection report</td>
+              <td>
+                <select name="subtask_inspection_report_level" required>
+                  <option value="">Evidence…</option>
+                  <option value="0">0 — Not demonstrated</option>
+                  <option value="1">1 — Lab / simulated</option>
+                  <option value="2">2 — Field / related task</option>
+                  <option value="3">3 — Industrial / production</option>
+                </select>
+              </td>
+              <td>
+                <select name="subtask_inspection_report_mode" required>
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </td>
+            </tr>            <tr>
+              <td>Routine / corrective maintenance task</td>
+              <td>
+                <select name="subtask_maintenance_level" required>
+                  <option value="">Evidence…</option>
+                  <option value="0">0 — Not demonstrated</option>
+                  <option value="1">1 — Lab / simulated</option>
+                  <option value="2">2 — Field / related task</option>
+                  <option value="3">3 — Industrial / production</option>
+                </select>
+              </td>
+              <td>
+                <select name="subtask_maintenance_mode" required>
+                  <option value="">Control mode…</option>
+                  <option value="mixed_initiative">Mixed-initiative</option>
+                  <option value="fully_teleoperated">Fully teleoperated</option>
+                  <option value="fully_autonomous">Fully autonomous</option>
+                  <option value="other_hybrid">Other / hybrid</option>
+                </select>
+              </td>
+            </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </section>
@@ -992,7 +1370,7 @@
           <span class="filter-tag">Discriminators</span>
           <p class="section-label">Section 4</p>
           <h2>Resources &amp; plan</h2>
-          <p class="section-hint">Funding and hardware secured to reach Semi-Finals; milestones from May to September 2027.</p>
+          <p class="section-hint">Funding and hardware secured to reach Semi-Finals; milestones from March to August 2027.</p>
 
           <div class="field">
             <label for="funding">Funding secured for Semi-Finals path <span class="req">*</span></label>
@@ -1006,15 +1384,18 @@
           </div>
           <div class="field">
             <label for="hardware_secured">Hardware secured <span class="req">*</span></label>
-            <textarea id="hardware_secured" name="hardware_secured" required placeholder="Platforms, compute, sensors already owned or ordered with dates"></textarea>
+            <span class="desc">Platforms, compute, sensors already owned or ordered with dates.</span>
+            <textarea id="hardware_secured" name="hardware_secured" required></textarea>
           </div>
           <div class="field">
-            <label for="milestones">Milestones May – September 2027 <span class="req">*</span></label>
-            <textarea id="milestones" name="milestones" required placeholder="Month-by-month plan from early May prep through Sep 2027 Semi-Finals window"></textarea>
+            <label for="milestones">Milestones March – August 2027 <span class="req">*</span></label>
+            <span class="desc">Month-by-month plan from March through August 2027 toward the Semi-Finals window.</span>
+            <textarea id="milestones" name="milestones" required></textarea>
           </div>
           <div class="field">
             <label for="resources_notes">Additional resource notes</label>
-            <textarea id="resources_notes" name="resources_notes" placeholder="Partners, facilities, travel budget…"></textarea>
+            <span class="desc">Partners, facilities, travel budget, and other notes.</span>
+            <textarea id="resources_notes" name="resources_notes"></textarea>
           </div>
         </section>
 
@@ -1037,26 +1418,28 @@
           </div>
           <div class="field">
             <label for="safety_detail">Safety &amp; certification detail <span class="req">*</span></label>
-            <textarea id="safety_detail" name="safety_detail" required placeholder="Standards, ATEX/IECEx, functional safety, PPE reduction claims…"></textarea>
+            <span class="desc">Standards, ATEX/IECEx, functional safety, PPE reduction claims.</span>
+            <textarea id="safety_detail" name="safety_detail" required></textarea>
           </div>
           <div class="field">
             <label for="industry_trials">Industry trials or customers so far <span class="req">*</span></label>
-            <textarea id="industry_trials" name="industry_trials" required placeholder="Sites, operators, outcomes — or none with honest timeline"></textarea>
+            <span class="desc">Sites, operators, outcomes — or none with an honest timeline.</span>
+            <textarea id="industry_trials" name="industry_trials" required></textarea>
           </div>
 
-          <div class="grid-2">
-            <div class="field">
-              <label for="travel_arrival">Travel — arrival intent</label>
-              <input type="text" id="travel_arrival" name="travel_arrival" placeholder="e.g. Semi-Finals Q3 2027 / Finals Q1–Q2 2028" />
-            </div>
-            <div class="field">
-              <label for="travel_departure">Travel — departure intent</label>
-              <input type="text" id="travel_departure" name="travel_departure" placeholder="Approx. window or TBD" />
+          <div class="field">
+            <span class="label">Willingness to travel to the UAE for Semi-Finals / Finals <span class="req">*</span></span>
+            <span class="desc">Semi-Finals are in Abu Dhabi. Confirm the team’s willingness to travel to the UAE for Semi-Finals and, if selected, Finals.</span>
+            <div class="choice-row">
+              <label><input type="radio" name="uae_travel_willingness" value="yes_both" required /> Yes — Semi-Finals and Finals</label>
+              <label><input type="radio" name="uae_travel_willingness" value="yes_semi" /> Yes — Semi-Finals; Finals TBD</label>
+              <label><input type="radio" name="uae_travel_willingness" value="no" /> No — cannot commit to UAE travel</label>
             </div>
           </div>
           <div class="field">
-            <label for="travel_notes">Visas, hotel, logistics notes</label>
-            <textarea id="travel_notes" name="travel_notes" placeholder="Visa support needed, hotel preference, equipment shipping…"></textarea>
+            <label for="travel_notes">Travel / logistics notes</label>
+            <span class="desc">Optional notes on visas, equipment shipping, or constraints (do not enter arrival/departure dates).</span>
+            <textarea id="travel_notes" name="travel_notes"></textarea>
           </div>
         </section>
 
@@ -1152,7 +1535,8 @@
           </div>
           <div class="field">
             <label for="uae_timeline">UAE presence timeline <span class="req">*</span></label>
-            <textarea id="uae_timeline" name="uae_timeline" required placeholder="Entity, staff, assembly, Emirati hires, suppliers — and when"></textarea>
+            <span class="desc">Entity, staff, assembly, Emirati hires, suppliers — and when.</span>
+            <textarea id="uae_timeline" name="uae_timeline" required></textarea>
           </div>
 
           <div class="field">
@@ -1163,12 +1547,52 @@
             </div>
           </div>
           <div class="field">
-            <label for="media_notes">Media notes</label>
-            <textarea id="media_notes" name="media_notes" placeholder="Restrictions, brand guidelines, preferred contacts…"></textarea>
+            <span class="label">Future challenge updates <span class="req">*</span></span>
+            <span class="desc">Would you be interested in receiving future updates about innovation Challenges like MBZIRC?</span>
+            <div class="choice-row">
+              <label><input type="radio" name="future_updates" value="yes" required /> Yes</label>
+              <label><input type="radio" name="future_updates" value="no" /> No</label>
+            </div>
           </div>
+          <div class="field">
+            <label for="media_notes">Media notes</label>
+            <span class="desc">Restrictions, brand guidelines, preferred contacts.</span>
+            <textarea id="media_notes" name="media_notes"></textarea>
+          </div>
+        </section>
 
-          <div class="knockout" style="margin-top:1.5rem;">
-            <h3>Team-lead declaration</h3>
+        <!-- 7 · How did you hear -->
+        <section class="section" id="attribution" data-reveal>
+          <p class="section-label">Section 7</p>
+          <h2>How did you hear about the Challenge?</h2>
+          <p class="section-hint">Helps organizers see which outreach channels work.</p>
+          <div class="field">
+            <span class="label">Primary source <span class="req">*</span></span>
+            <div class="choice-row" style="flex-direction:column;align-items:flex-start;gap:0.55rem;">
+              <label><input type="radio" name="heard_about" value="adipec" required /> ADIPEC</label>
+              <label><input type="radio" name="heard_about" value="mbzirc_aspire_website" /> MBZIRC / ASPIRE website</label>
+              <label><input type="radio" name="heard_about" value="linkedin" /> LinkedIn</label>
+              <label><input type="radio" name="heard_about" value="adnoc" /> ADNOC</label>
+              <label><input type="radio" name="heard_about" value="university_supervisor" /> University or supervisor</label>
+              <label><input type="radio" name="heard_about" value="colleague" /> Colleague</label>
+              <label><input type="radio" name="heard_about" value="past_mbzirc" /> Past MBZIRC</label>
+              <label><input type="radio" name="heard_about" value="media" /> Media</label>
+              <label><input type="radio" name="heard_about" value="other" /> Other</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="heard_about_other">If Other, please specify</label>
+            <span class="desc">Required when “Other” is selected.</span>
+            <textarea id="heard_about_other" name="heard_about_other"></textarea>
+          </div>
+        </section>
+
+        <!-- Declaration -->
+        <section class="section" id="declaration-section" data-reveal>
+          <p class="section-label">Final step</p>
+          <h2>Team-lead declaration</h2>
+          <div class="knockout" style="margin-top:0.5rem;">
+            <h3>Sign-off</h3>
             <div class="field">
               <label>
                 <input type="checkbox" name="declaration" value="yes" required />
@@ -1213,7 +1637,7 @@
 
   <script>
     (function () {
-      const STORAGE_KEY = "mbzirc-cfp-intake-draft-v1";
+      const STORAGE_KEY = "mbzirc-cfp-intake-draft-v2";
       const form = document.getElementById("cfp-form");
       const rosterEl = document.getElementById("roster");
       const toast = document.getElementById("draft-toast");
@@ -1246,7 +1670,7 @@
             </div>
             <div class="field">
               <label>Role <span class="req">*</span></label>
-              <input type="text" name="member_role_${id}" required value="${escapeAttr(data?.role || "")}" placeholder="e.g. Lead engineer, autonomy" />
+              <span class="desc">e.g. Lead engineer, autonomy</span><input type="text" name="member_role_${id}" required value="${escapeAttr(data?.role || "")}" />
             </div>
           </div>
           <div class="grid-2">
@@ -1339,6 +1763,7 @@
           },
           knockouts: {
             unifiedSystemReady: fd.get("ko_unified"),
+            abuDhabiTravelWillingness: fd.get("ko_abu_dhabi_travel"),
             semiFinalsEvidence: {
               currentHardware: fd.get("ko_current_hardware"),
               currentSoftware: fd.get("ko_current_software"),
@@ -1365,6 +1790,7 @@
             robotClassNote: "provisional — not enumerated in kick-off deck",
             applicantCategory: fd.get("age_group"),
             roster: collectRoster(),
+            advisors: fd.get("advisors"),
             trackRecord: fd.get("track_record"),
             adnocLinks: fd.get("adnoc_links"),
             adnocLinksNotes: fd.get("adnoc_links_notes"),
@@ -1375,6 +1801,8 @@
             applicationSensors: fd.get("application_sensors"),
             manipulationHardware: fd.get("arm"),
             mobileManipulationSoftware: fd.get("mobile_manipulation_software"),
+            mobileManipulator: fd.get("dual_arm"),
+            mobileManipulatorDetail: fd.get("dual_arm_detail"),
             dualArm: fd.get("dual_arm"),
             dualArmDetail: fd.get("dual_arm_detail"),
             primaryControlMode: fd.get("primary_control_mode"),
@@ -1384,21 +1812,54 @@
             goals: fd.get("goals"),
           },
           evidence: {
+            videos: {
+              primary: {
+                url: fd.get("video_url"),
+                description: fd.get("video_url_description"),
+                type: fd.get("video_url_type"),
+                humanIntervention: fd.get("video_url_human_intervention"),
+                under5Min: fd.get("video_url_under_5min") === "yes",
+              },
+              additional1: {
+                url: fd.get("video_url_backup_1"),
+                description: fd.get("video_url_backup_1_description"),
+                type: fd.get("video_url_backup_1_type"),
+                humanIntervention: fd.get("video_url_backup_1_human_intervention"),
+                under5Min: fd.get("video_url_backup_1_under_5min") === "yes",
+              },
+              additional2: {
+                url: fd.get("video_url_backup_2"),
+                description: fd.get("video_url_backup_2_description"),
+                type: fd.get("video_url_backup_2_type"),
+                humanIntervention: fd.get("video_url_backup_2_human_intervention"),
+                under5Min: fd.get("video_url_backup_2_under_5min") === "yes",
+              },
+            },
             videoUrl: fd.get("video_url"),
             videoUrlBackup1: fd.get("video_url_backup_1"),
             videoUrlBackup2: fd.get("video_url_backup_2"),
-            videoNotes: fd.get("video_notes"),
             maturity: {
-              map: fd.get("maturity_map"),
-              navigate: fd.get("maturity_navigate"),
-              inspect: fd.get("maturity_inspect"),
-              operate: fd.get("maturity_operate"),
-              report: fd.get("maturity_report"),
+              map: { level: fd.get("maturity_map"), mode: fd.get("maturity_map_mode") },
+              navigate: { level: fd.get("maturity_navigate"), mode: fd.get("maturity_navigate_mode") },
+              inspect: { level: fd.get("maturity_inspect"), mode: fd.get("maturity_inspect_mode") },
+              operate: { level: fd.get("maturity_operate"), mode: fd.get("maturity_operate_mode") },
+              maintain: { level: fd.get("maturity_maintain"), mode: fd.get("maturity_maintain_mode") },
+              report: { level: fd.get("maturity_report"), mode: fd.get("maturity_report_mode") },
+            },
+            subtasks: {
+              analogue_gauge: { level: fd.get("subtask_analogue_gauge_level"), mode: fd.get("subtask_analogue_gauge_mode") },
+              hand_valve: { level: fd.get("subtask_hand_valve_level"), mode: fd.get("subtask_hand_valve_mode") },
+              button_switch: { level: fd.get("subtask_button_switch_level"), mode: fd.get("subtask_button_switch_mode") },
+              gas_thermal: { level: fd.get("subtask_gas_thermal_level"), mode: fd.get("subtask_gas_thermal_mode") },
+              mobility_obstacles: { level: fd.get("subtask_mobility_obstacles_level"), mode: fd.get("subtask_mobility_obstacles_mode") },
+              inspection_report: { level: fd.get("subtask_inspection_report_level"), mode: fd.get("subtask_inspection_report_mode") },
+              maintenance: { level: fd.get("subtask_maintenance_level"), mode: fd.get("subtask_maintenance_mode") },
             },
           },
           resourcesPlan: {
             funding: fd.get("funding"),
             hardwareSecured: fd.get("hardware_secured"),
+            milestonesMarAug2027: fd.get("milestones"),
             milestonesMaySep2027: fd.get("milestones"),
             notes: fd.get("resources_notes"),
           },
@@ -1406,17 +1867,21 @@
             safetyStatus: fd.get("safety_status"),
             safetyDetail: fd.get("safety_detail"),
             industryTrials: fd.get("industry_trials"),
+            uaeTravelWillingness: fd.get("uae_travel_willingness"),
             travel: {
-              arrivalIntent: fd.get("travel_arrival"),
-              departureIntent: fd.get("travel_departure"),
               visasHotelNotes: fd.get("travel_notes"),
             },
+          },
+          attribution: {
+            heardAbout: fd.get("heard_about"),
+            heardAboutOther: fd.get("heard_about_other"),
           },
           adnocIcv: {
             pathways: getPathways(),
             uaePresence: fd.get("uae_presence"),
             uaeTimeline: fd.get("uae_timeline"),
             mediaConsent: fd.get("media_consent"),
+            futureUpdates: fd.get("future_updates"),
             mediaNotes: fd.get("media_notes"),
             declaration: {
               accepted: fd.get("declaration") === "yes",
@@ -1527,7 +1992,7 @@
           `Robot class (provisional): ${obj.team.robotClass}`,
           `Applicant category: ${obj.team.applicantCategory}`,
           "",
-          `Readiness Assessment — unified: ${obj.knockouts.unifiedSystemReady}; ADNOC: ${obj.knockouts.workWithAdnoc}; ICV: ${obj.knockouts.icvIntent}`,
+          `Readiness Assessment — unified: ${obj.knockouts.unifiedSystemReady}; Abu Dhabi travel: ${obj.knockouts.abuDhabiTravelWillingness}; ADNOC: ${obj.knockouts.workWithAdnoc}; ICV: ${obj.knockouts.icvIntent}`,
           `Semi-Finals evidence — hardware: ${(obj.knockouts.semiFinalsEvidence.currentHardware || "").slice(0, 120)}`,
           `  software: ${(obj.knockouts.semiFinalsEvidence.currentSoftware || "").slice(0, 120)}`,
           `  field deployments: ${(obj.knockouts.semiFinalsEvidence.priorFieldDeployments || "").slice(0, 120)}`,
@@ -1540,12 +2005,14 @@
           `App sensors: ${(obj.systemConcept.applicationSensors || "").slice(0, 160)}`,
           `Manipulation hardware: ${(obj.systemConcept.manipulationHardware || "").slice(0, 120)}`,
           `Mobile manip software: ${(obj.systemConcept.mobileManipulationSoftware || "").slice(0, 120)}`,
-          `Dual-arm: ${obj.systemConcept.dualArm} — ${(obj.systemConcept.dualArmDetail || "").slice(0, 120)}`,
+          `Mobile manipulator: ${obj.systemConcept.mobileManipulator || obj.systemConcept.dualArm} — ${(obj.systemConcept.mobileManipulatorDetail || obj.systemConcept.dualArmDetail || "").slice(0, 120)}`,
           `Control mode: ${obj.systemConcept.primaryControlMode}`,
           `Share control: ${(obj.systemConcept.humanSystemShareControl || "").slice(0, 160)}`,
           `Intervene vs AI: ${(obj.systemConcept.humanInterveneVsAi || "").slice(0, 120) || "—"}`,
-          `Video (primary): ${obj.evidence.videoUrl}`,
-          `Video (additional): ${[obj.evidence.videoUrlBackup1, obj.evidence.videoUrlBackup2].filter(Boolean).join(" · ") || "—"}`,
+          `Video (primary): ${obj.evidence.videoUrl} · type ${obj.evidence.videos?.primary?.type || "?"} · ≤5min ${obj.evidence.videos?.primary?.under5Min}`,
+          `Heard about: ${obj.attribution?.heardAbout || "—"}${obj.attribution?.heardAboutOther ? " — " + obj.attribution.heardAboutOther : ""}`,
+          `Future updates: ${obj.adnocIcv.futureUpdates}`,
+          `UAE travel willingness: ${obj.deployment.uaeTravelWillingness}`,
           `Funding: ${obj.resourcesPlan.funding}`,
           `Safety: ${obj.deployment.safetyStatus}`,
           `Pathways: ${pathways}`,
@@ -1574,7 +2041,7 @@
           ["Contact", `${obj.team.contact.name} · ${obj.team.contact.email} · ${obj.team.contact.phone}`],
           ["Roster", `${obj.team.roster.length} member(s): ${obj.team.roster.map((m) => m.name).filter(Boolean).join(", ") || "—"}`],
           ["Robot class / applicant category", `${obj.team.robotClass} / ${obj.team.applicantCategory}`],
-          ["Readiness Assessment", `Unified ${obj.knockouts.unifiedSystemReady}; ADNOC ${obj.knockouts.workWithAdnoc}; ICV ${obj.knockouts.icvIntent}`],
+          ["Readiness Assessment", `Unified ${obj.knockouts.unifiedSystemReady}; Abu Dhabi travel ${obj.knockouts.abuDhabiTravelWillingness}; ADNOC ${obj.knockouts.workWithAdnoc}; ICV ${obj.knockouts.icvIntent}`],
           ["Current hardware", obj.knockouts.semiFinalsEvidence.currentHardware],
           ["Current software", obj.knockouts.semiFinalsEvidence.currentSoftware],
           ["Prior field deployments", obj.knockouts.semiFinalsEvidence.priorFieldDeployments],
@@ -1586,16 +2053,20 @@
           ["Application sensors", obj.systemConcept.applicationSensors],
           ["Manipulation hardware", obj.systemConcept.manipulationHardware],
           ["Mobile manipulation software", obj.systemConcept.mobileManipulationSoftware],
-          ["Dual-arm", `${obj.systemConcept.dualArm} — ${obj.systemConcept.dualArmDetail || ""}`],
+          ["Advisors", obj.team.advisors],
+          ["Mobile manipulator", `${obj.systemConcept.mobileManipulator || obj.systemConcept.dualArm} — ${obj.systemConcept.mobileManipulatorDetail || obj.systemConcept.dualArmDetail || ""}`],
           ["Primary control mode", obj.systemConcept.primaryControlMode],
           ["Human / system share control", obj.systemConcept.humanSystemShareControl],
           ["Human intervene vs AI", obj.systemConcept.humanInterveneVsAi || "—"],
           ["Primary video", obj.evidence.videoUrl],
           ["Additional videos", [obj.evidence.videoUrlBackup1, obj.evidence.videoUrlBackup2].filter(Boolean).join(" · ") || "—"],
-          ["Maturity (M/N/I/O/R)", Object.values(obj.evidence.maturity).join(" / ")],
+          ["Maturity", Object.entries(obj.evidence.maturity).map(([k,v]) => `${k}:${v.level||v}/${v.mode||"—"}`).join(" · ")],
+          ["Heard about", `${obj.attribution?.heardAbout || "—"}${obj.attribution?.heardAboutOther ? " — " + obj.attribution.heardAboutOther : ""}`],
+          ["Future updates", obj.adnocIcv.futureUpdates],
           ["Funding", obj.resourcesPlan.funding],
           ["Safety", obj.deployment.safetyStatus],
-          ["Travel", [obj.deployment.travel.arrivalIntent, obj.deployment.travel.departureIntent].filter(Boolean).join(" → ") || "—"],
+          ["UAE travel willingness", obj.deployment.uaeTravelWillingness],
+          ["Travel notes", obj.deployment.travel?.visasHotelNotes || "—"],
           ["Pathways", (obj.adnocIcv.pathways || []).map((p) => p.pathway).join(", ") || "—"],
           ["UAE presence", obj.adnocIcv.uaePresence],
           ["Media consent", obj.adnocIcv.mediaConsent],
@@ -1624,13 +2095,41 @@
         if (form.ko_unified.value === "no") {
           return "Knock-out: a unified working system by Semi-Finals is required to proceed.";
         }
+        if (form.ko_abu_dhabi_travel && form.ko_abu_dhabi_travel.value === "no") {
+          return "Knock-out: willingness to travel to Abu Dhabi for Semi-Finals is required.";
+        }
         if (form.ko_adnoc.value === "no") {
           return "Knock-out: intent to work with ADNOC after the challenge is required.";
         }
         if (form.ko_icv.value === "no") {
           return "Knock-out: ICV / UAE value intent is required (willingness to build value in the UAE).";
         }
+        if (form.uae_travel_willingness && form.uae_travel_willingness.value === "no") {
+          return "Willingness to travel to the UAE for Semi-Finals / Finals is required.";
+        }
         if (collectRoster().length < 1) return "Add at least one roster member.";
+        const heard = form.querySelector('input[name="heard_about"]:checked');
+        if (heard && heard.value === "other") {
+          const other = (form.heard_about_other?.value || "").trim();
+          if (!other) return "Please specify how you heard about the Challenge (Other).";
+        }
+        // Optional additional videos: if URL provided, require type/description/intervention/5min
+        for (const prefix of ["video_url_backup_1", "video_url_backup_2"]) {
+          const url = (form.querySelector(`[name="${prefix}"]`)?.value || "").trim();
+          if (!url) continue;
+          if (!(form.querySelector(`[name="${prefix}_description"]`)?.value || "").trim()) {
+            return `Add a description for the additional video (${prefix.includes("1") ? "1" : "2"}).`;
+          }
+          if (!form.querySelector(`input[name="${prefix}_type"]:checked`)) {
+            return `Select real vs concept for additional video (${prefix.includes("1") ? "1" : "2"}).`;
+          }
+          if (!(form.querySelector(`[name="${prefix}_human_intervention"]`)?.value || "").trim()) {
+            return `Describe human intervention for additional video (${prefix.includes("1") ? "1" : "2"}).`;
+          }
+          if (!form.querySelector(`input[name="${prefix}_under_5min"]`)?.checked) {
+            return `Confirm the 5-minute limit for additional video (${prefix.includes("1") ? "1" : "2"}).`;
+          }
+        }
         return null;
       }
 
